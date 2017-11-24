@@ -1,5 +1,16 @@
+/* color palette
+#354458 darkblue
+#3A9AD9	lightblue
+#29ABA4	green
+#E9E0D6	very ligth brown
+#EB7260	orange
+
+
+*/
+
 body{
 	text-align: center;
+	background: #E9E0D6;
 }
 
 i {
@@ -9,6 +20,29 @@ i {
 #logobig{
 	height:20em;
 }
+
+/* color stuff */
+header{
+	background: #29ABA4;
+}
+
+footer{
+	color:#f2f2f2;
+}
+main .jumbotron{
+	background: #EB7260;
+	border-radius: 0px;
+}
+
+.black-button{
+	color:black;
+	background-color: #b3b3b3;
+}
+
+footer .container-fluid{
+	background: #354458;
+}
+
 header .row .col-sm-3 img{
 	float: left;
 	padding: 0px;
