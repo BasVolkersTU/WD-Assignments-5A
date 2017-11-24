@@ -1,112 +1,160 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Home page</title>
-	<link href="https://fonts.googleapis.com/css?family=Lato|PT+Sans" rel="stylesheet">
+	<title>Hackbit</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato|Ubuntu" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/indexstyle.css" type="text/css">
 </head>
 <body>
-	<header>
-		<div class = "container">
-			<div class = "top">
-				<div class="left">
-					<img src="res/placeholder.png" height = "50px">
+<header>
+	<div class="container-fluid">
+	<div class = "page-header">
+		
+		<div class="row">
+				<div class="col-sm-3">
+					<img src="res/logosmall.png" id="logosmall">
 				</div>
-				
-				<div class = "middle">
+
+				<div class="col-sm-6">
 					<h1>Hackbit</h1>
 				</div>
 
-				<div class = "right">
-					<nav>
-						<a href="#">Sign up</a>
-						<a href="#">Log in</a>
-					</nav>
+				<div class="col-sm-3">
+					<div class="buttons">
+					<button type="button" class="btn btn-secondary">Sign up</button>
+					<button type="button" class="btn btn-secondary">Log in</button>
 				</div>
-			</div>
-
-			<div class = "description">
-				<div class="left">
-					<p>Description</p>
+					
 				</div>
-
-				<div class="middle">
-				<img src="res/placeholder.png">
-				</div>
-
-				<div class="right">
-				<p>Convincing arg.</p>
-				</div>
-			</div>
-
-			<div class ="getStarted">
-
-				<a href="html/habittracker.html">
-					<button>Get Started Now!</button>
-				</a>
-			</div>
-
-			<div class="socialMedia">
-				<i class="fa fa-facebook-official"></i>
-				<i class="fa fa-twitter"></i>
-			</div>
 		</div>
+	</div>
+	</div>
+</header>
 
-	</header>
-
-	<main>
-		<div class = "container">
-			<div class="title">
-				<h1>Features</h1>
-			</div>
-
-			<div class="feature1">
-				<h2>Easy to use</h2>
-				<img src="res/placeholder.png" height="150px">
-				<p>Description</p>
-			</div>
-
-			<div class="feature2">
-				<h2>Customizable</h2>
-				<img src="res/placeholder.png" height="150px">
-				<p>Description</p>
-			</div>
-
-			<div class="feature3">
-				<h2>Free</h2>
-				<img src="res/placeholder.png" height="150px">
-				<p>Description</p>
-			</div>
-		</div>
-	</main>
-
-	<footer>
-		<div class = "container">
-			<div class = "left">
-				<p>Made by:</p>
-				<ul>
-					<li>Bas Volkers</li>
-					<li>Cherwin Ort</li>
-				</ul>
-				<p>© 2017. All rights reserved.</p>
-			</div>
-
-			<div class = "middle">
-				<button>Sign up</button>
-				<button>Log in</button>
-			</div>
-
-			<div class = "right">
-				<ul>
-					<li><a href="#">Contact</a></li>
-					<li><a href="#">Support</a></li>
-					<li><a href="#">About</a></li>
-					<li><a href="#">FAQ</a></li>
-				</ul>
-			</div>
-		</div>
+<main>
+	<div class="jumbotron">
+	<div class="container-fluid">
 		
-	</footer>
+		
+		
+			<div class="row">
+
+				<div class="col-sm-4">
+					<div class="description">
+					<p>The Hackbit habittracker lets you create both bad and good habits, keeps track of how you are doing and it is even possible to send you daily notifications.</p>
+				</div>
+				</div>
+
+				<div class="col-sm-4">
+					<img id="logobig" src="res/logobig.png">
+				</div>
+
+				<div class="col-sm-4">
+					<div class="description">
+					<p>Millions of people are using Hackbit daily for perfecting their day, so what are you waiting for?</p>
+				</div>
+				</div>
+
+			</div>
+
+			<div class="started">
+			<div class="row">		
+				<div class="col-sm-1"></div>
+				<div class="col-sm-10">
+					<button type="button" class="btn btn-primary">Get Started Now</button>
+				</div>
+
+				<div class="col-sm-1">
+					<div class="socialmedia">
+					<a href="https://www.facebook.com">
+						<i class="fa fa-facebook-official fa-2x"></i>
+					</a>
+					<a href="https://www.twitter.com">
+						<i class="fa fa-twitter-square fa-2x"></i>
+					</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<div class="container-fluid">
+		<div class="features">
+			<h1>Features</h1>
+
+
+			<div class="row">	
+				<div class="col-sm-4">
+					<div class="content">
+						<h2>Easy to use</h2>
+						<i class="fa fa-bolt"></i>
+						<p>Hackbit has a clear design with built in tips and guidelines for getting you on your way as fast as possible.</p>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="content">
+						<h2>Customizable</h2>
+						<i class="fa fa-cogs"></i>
+						<p>Hackbit offers a customizable home screen where you can customize evrey aspect of the habit you could possibly think of.</p>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="content">
+						<h2>Free</h2>
+						<i class="fa fa-usd"></i>
+						<p>Hackbit is completely free of charge, which is probably it's most liked feature.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</main>
+
+<footer>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="left">
+					<p>Made by:</p>
+					<ul>
+						<li>Cherwin Ort</li>
+						<li>Bas Volkes</li>
+					</ul>
+					<p>© 2017. All rights reserved.</p>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="middle">
+					<button type="button" class="btn btn-secondary">Sign up</button>
+					<button type="button" class="btn btn-secondary">Log in</button>
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="right">
+					<div class="container-fluid">
+						<div class="row">
+						<div class="col-sm-6">
+							<p>About</p>
+							<p>Contact</p>
+						</div>
+						<div class="col-sm-6">
+							<p>Support</p>
+							<p>FAQ</p>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+		
 </body>
 </html>

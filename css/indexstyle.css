@@ -1,140 +1,87 @@
-/* Color palette
-darkblue:#558C89;
-lightblue:#74AFAD;
-orange:#D9853B;
-grayish:#ECECEA;
-
-
-
-*/
 body{
-	background:#74AFAD;
-	font-family: 'Lato';
-	color: #595959; 
-}
-
-header, main, footer {
-  min-width: 99%;
-  overflow:hidden;
-  height: auto;
-}
-
-main .container, header .container, footer .container{
-	max-width: 99%;
-	margin: 0px;
-	text-align:center;
-}
-
-header {
-	border-bottom: 1px solid black;
-}
-
-header .top .left{
-	display: inline-block;
-	min-width: 25%;
-	max-width: 25%;
-	
-}
-
-header .top .middle{
-	display: inline-block;
-	min-width: 50%;
-	max-width: 50%;
-	
-}
-header .top .right{
-	display: inline-block;
-	min-width: 24%;
-	max-width: 24%;
-}
-
-header .description .left{
-	display: inline-block;
-	min-width: 33%;
-	max-width: 33%;
-	
-}
-
-header .description .middle{
-	display: inline-block;
-	min-width: 33%;
-	max-width: 33%;
-	
-}
-header .description .right{
-	display: inline-block;
-	min-width: 33%;
-	max-width: 33%;
-}
-
-header .getStarted{
 	text-align: center;
 }
 
-header .socialMedia{
+i {
+	color:black;
+}
+
+#logobig{
+	height:20em;
+}
+header .row .col-sm-3 img{
+	float: left;
+	padding: 0px;
+	padding-top:0.5em;
+	height: 7em;
+}
+
+header .buttons{
+	margin-top: 1em;
+	float: right;
+	margin-left: 2em;
+}
+
+header button{
+	margin:1em;
+}
+
+header .row h1{
+	font-family: "Ubuntu";
+	font-size: 6em;
+
+}
+
+main .btn-primary{
+	margin-top:3em;
+	font-size: 1.5em;
+}
+
+main .col-sm-1{
+	position: relative;
+}
+.socialmedia{
 	float:right;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	margin-bottom: -3em;
 }
 
-main{
-	background:#558C89; 
-}
-main .title{
-	text-align: center;
+.description{
+	margin: 3em;
+	font-size: 1.3em;
+
 }
 
-main .feature1{
-	display: inline-block;
-	min-width: 25%;
-	max-width: 25%;
-	text-align: center;
-	margin-left: 5%;
-}
-main .feature2{
-	display: inline-block;
-	min-width: 39%;
-	max-width: 39%;
-	text-align: center;
-}
-main .feature3{
-	display: inline-block;
-	min-width: 25%;
-	max-width: 25%;
-	text-align: center;
-	margin-right: 5%;
+
+.features{
+	margin-bottom: 5em;
+	margin-top: 3em;
 }
 
-main {
-	border-bottom: 1px solid black;
+.features i{
+	font-size:8em;
+	margin:.25em;
+}
+
+
+footer{
+	background: #E9ECEF
 }
 
 footer .left{
-	display: inline-block;
-	min-width: 25%;
-	max-width: 25%;
+	margin-top: 0.3em;
 	text-align: left;
 }
 
 footer .middle{
-	display: inline-block;
-	min-width: 49%;
-	max-width: 49%;
+	margin-top: 2em;
 }
 
 footer .right{
-	display: inline-block;
-	min-width: 25%;
-	max-width: 25%;
+	margin-top: 2em;
 }
-
-footer .right li{
-	list-style-type: none;
-	display:inline-block;
-	width: 49%;
-	margin-top:0px;
+footer button{
+	margin: 1em
 }
-
-footer .right a{
-	text-decoration: none;
-	color: darkred;
-}
-
