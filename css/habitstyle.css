@@ -1,0 +1,24 @@
+header{
+  background: #29ABA4;
+ }
+ 
+  footer{
+	background: #E9ECEF
+}
+
+footer .left{
+	margin-top: 0.3em;
+	text-align: left;
+}
+
+footer .middle{
+	margin-top: 2em;
+}
+
+footer .right{
+	margin-top: 2em;
+}
+footer button{
+	margin: 1em
+}
+  
