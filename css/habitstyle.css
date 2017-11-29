@@ -2,6 +2,9 @@ header{
   background: #29ABA4;
  }
 
+header . left{
+	position: left top;
+
 footer{
 	color:#f2f2f2;
 }
