@@ -1,6 +1,14 @@
 header{
   background: #29ABA4;
  }
+
+footer{
+	color:#f2f2f2;
+}
+
+footer .container-fluid{
+	background: #354458;
+}
  
   footer{
 	background: #E9ECEF
