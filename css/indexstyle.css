@@ -99,6 +99,10 @@ main .col-sm-1{
 	margin:.25em;
 }
 
+footer .container-fluid{
+	background: #354458;
+}
+
 
 footer{
 	background: #E9ECEF

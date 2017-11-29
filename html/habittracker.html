@@ -4,83 +4,190 @@
 	<title>Habit tracker</title>
 	<link href="https://fonts.googleapis.com/css?family=Lato|Ubuntu" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/habitstyle.css" type="text/css">	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+	<link rel="stylesheet" href="../css/habitstyle.css" type="text/css">
 </head>
 
 <body>
 	<header>
-		<div class = "container">
-			<div class = "left">
-				<a href="index.html">
-					<img src="res/placeholder.png" height = "50px">
-				</a>
-				<a href="index.html">Home</a>
-				
+	<div class="container-fluid">
+	<div class = "page-header">
+		
+		<div class="row">
+				<div class="col-sm-3">
+					<img src="../res/logosmall.png" id="logosmall">
+				</div>
+
+				<div class="col-sm-6">
+					<h1>Hackbit</h1>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="buttons">
+					<button type="button" class="btn btn-secondary black-button">Sign up</button>
+					<button type="button" class="btn btn-secondary black-button">Log in</button>
+				</div>
+					
+				</div>
+		</div>
+	</div>
+	</div>
+</header>
+	<main>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-1 lefticons">
+					<i id="plus" class="fa fa-plus-circle"></i>
+
+				</div>
+
+				<div class="col-sm-1 lefticons">
+					<i id="left" class="fa fa-chevron-left arrow"></i>
+				</div>
+
+				<div class="col-sm-1 date">
+						<p>1 apr</p>
+						<p>Mon</p>
+				</div>
+				<div class="col-sm-1 date">
+						<p>1 apr</p>
+						<p>Mon</p>
+				</div>
+				<div class="col-sm-1 date">
+						<p>1 apr</p>
+						<p>Mon</p>
+				</div>
+				<div class="col-sm-1 date">
+						<p>1 apr</p>
+						<p>Mon</p>
+				</div>
+				<div class="col-sm-1 date">
+						<p>1 apr</p>
+						<p>Mon</p>
+				</div>
+				<div class="col-sm-1 date">
+						<p>1 apr</p>
+						<p>Mon</p>
+				</div>
+				<div class="col-sm-1 date">
+						<p>1 apr</p>
+						<p>Mon</p>
+				</div>
+
+				<div class="col-sm-3 righticons">
+					<i id="right" class="fa fa-chevron-right arrow"></i>
+				</div>
+
 			</div>
-			
-			<div class = "middle">
-				<h1>Your Hackbit tracker</h1>
-			</div>
-			
-			<div class = "right">
-				<nav>
-					<a href="#">Sign up</a>
-					<a href="#">Log in</a>
-				</nav>
+
+			<div class="content">
+				<div class="habit">
+				<div class="row">
+					<div class="col-sm-1 tag">
+						<p>Tag</p>
+					</div>
+					<div class="col-sm-1 name">
+						<p>Name</p>
+					</div>
+
+					<div class="col-sm-1 square">
+						<p></p>
+					</div>
+					<div class="col-sm-1 square">
+						<p></p>
+					</div>
+					<div class="col-sm-1 square">
+						<p></p>
+					</div>
+					<div class="col-sm-1 square">
+						<p></p>
+					</div>
+					<div class="col-sm-1 square">
+						<p></p>
+					</div>
+					<div class="col-sm-1 square">
+						<p></p>
+					</div>
+					<div class="col-sm-1 square">
+						<p></p>
+					</div>
+
+					<div class="col-sm-3 righticons">
+					</div>
+				</div>
+				</div>
 			</div>
 		</div>
-				
-	</header>
-	<main>
-		<div class = "container">
-			<div class = "dates">
-				<button>+</button>
-				<button><</button>
-				
-				<ul>
-					<li>1 Apr.</li>
-					<li>2 Apr.</li>
-					<li>3 Apr.</li>
-					<li>4 Apr.</li>
-					<li>5 Apr.</li>
-					<li>6 Apr.</li>
-					<li>7 Apr.</li>
-				</ul>
-				<ul>
-					<li>Mo</li>
-					<li>Tu</li>
-					<li>We</li>
-					<li>Th</li>
-					<li>Fr</li>
-					<li>Sa</li>
-					<li>Su</li>
-				</ul>
-				<button>></button>
+
+
+		<div id="dialog" title="Hackbit">
+			<h1>Add a habit</h1>
+			  <p>Please specify the following fields:</p>
+			  <p>Name:<input class="textInput" id="nameInput" type="text" /></p>
+			  <p>Tag:<input class="textInput" id="tagInput" type="text" /></p>
+			  <p>Select days:</p>
+
+			  <div>
+			  	<span class="leftbox" >
+			 	<input type="checkbox" id="day1" name="days" value="Mon">
+			  	<label for="Mon">Monday</label>
+			  	</span>
+
+			  	<span class="rightbox" >
+			  	<input  type="checkbox" id="day2" name="days" value="Tue">
+			  	<label for="Tue">Tuesday</label>
+			  	</span>
+			  	
+			  	<span class="leftbox" >
+			  	<input type="checkbox" id="day3" name="days" value="Wed">
+			  	<label for="Wed">Wednesday</label>
+			 	 </span>
+
+			 	<span class="rightbox" >
+			  	<input type="checkbox" id="day4" name="days" value="Thu">
+			  	<label for="Thu">Thursday</label>
+			  	</span>
+
+			  	<span class="leftbox" >
+			  	<input type="checkbox" id="day5" name="days" value="Fri">
+			  	<label for="Fri">Friday</label>
+			  	</span>
+
+			  	<span class="rightbox" >
+			  	<input type="checkbox" id="day6" name="days" value="Sat">
+			  	<label for="Sat">Saturday</label>
+			  	</span>
+
+			  	<span id="lastDay" >
+			  	<input type="checkbox" id="day7" name="days" value="Sun">
+			  	<label for="Sun">Sunday</label>
+			  </span>
+			  </div>
+
+			  <div>
+				  <p>Is it a good or bad habit?</p>
+				  <span class="leftbox" >
+				  <input type="radio" id="goodHabit" name="days" value="true" checked="checked">
+				  <label for="goodHabit">Good Habit</label>
+				</span>
+
+				  <span class="leftbox" >
+				  <input type="radio" id="badHabit" name="days" value="false">
+				  <label for="badHabit">Bad Habit</label>
+				</span>
 			</div>
-			<div class = "habits">
-				<ul>
-					<li>
-						<p>tag</p>
-						
-						
-						<p>habit</p>
-						<ul>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-						</ul>
-						<p>1</p>
-					</li>
-				</ul>
-				
+
+		
+		</div>
+
+		<div id="changeDialog" title="Hackbit">
+		
+
+		</div>
+		
+
+
 					
 		
 	</main>
@@ -124,6 +231,11 @@
 		</div>
 	</div>
 </footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="../js/habitscript.js"></script>
+
 
 </body>
 </html>

@@ -1,9 +1,107 @@
-header{
-  background: #29ABA4;
- }
+body{
+	text-align: center;
+	background: #E9E0D6;
+}
 
-header . left{
-	position: left top;
+i {
+	color:black;
+}
+
+#dialog {
+    display:none;
+    text-align: left;
+}
+
+#changeDialog {
+    display:none;
+    text-align: left;
+}
+
+#lastDay{
+	float:left;
+	width: 100%;
+}
+
+.textInput{
+	float:right;
+}
+
+.rightbox{
+	float:right;
+	width:49%;
+}
+
+.leftbox{
+	float:left;
+	width: 49%;
+}
+
+.today{
+	font-weight: bold;
+}
+
+.righticons i{
+	float: left;
+	font-size:4.5em;
+}
+
+.lefticons i{
+	float: right;
+	font-size:4.5em;
+}
+
+header{
+	background: #29ABA4;
+}
+
+
+header .row .col-sm-3 img{
+	float: left;
+	padding: 0px;
+	padding-top:0.5em;
+	height: 7em;
+}
+
+header .buttons{
+	margin-top: 1em;
+	float: right;
+	margin-left: 2em;
+}
+
+header button{
+	margin:1em;
+}
+
+header .row h1{
+	font-family: "Ubuntu";
+	font-size: 6em;
+}
+
+.black-button{
+	color:black;
+	background-color: #b3b3b3;
+}
+
+main{
+	margin-top: 1em;
+}
+
+
+main .square{
+	padding:1.5em;
+	display: inline-block;
+	border: 1px solid gray;
+}
+
+main .square:hover{
+	cursor: pointer;
+}
+
+
+
+.fa{
+	cursor: pointer;
+}
 
 footer{
 	color:#f2f2f2;
@@ -12,8 +110,9 @@ footer{
 footer .container-fluid{
 	background: #354458;
 }
- 
-  footer{
+
+
+footer{
 	background: #E9ECEF
 }
 
@@ -32,4 +131,3 @@ footer .right{
 footer button{
 	margin: 1em
 }
-  
