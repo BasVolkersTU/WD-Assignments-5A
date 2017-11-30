@@ -37,7 +37,7 @@ var main = function(){
 			this.name = name;
 			this.good = good;
 			this.freq = freq;
-			this.daysFreq = {"1 Apr"};
+			this.daysFreq = {"1 Apr":0};
 			this.streak = 0;
 
 			this.getDaysFreq = function(){
