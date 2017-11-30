@@ -32,13 +32,17 @@ var main = function(){
 	});
 
 	class Habit{
-		constructor(name,tag,good,days){
+		constructor(name,tag,good,freq){
 			this.tag = tag;
 			this.name = name;
 			this.good = good;
-			this.days = days;
-			this.daysMarked = [];
+			this.freq = freq;
+			this.daysFreq = {"1 Apr"};
 			this.streak = 0;
+
+			this.getDaysFreq = function(){
+				return this.daysFreq;
+			}
 
 			this.getName = function () {
 	        	return this.name;
@@ -57,8 +61,8 @@ var main = function(){
 	   		 this.getGood = function () {
 	        	return this.good;
 	   		 };
-	   		 this.getDays = function(){
-	   		 	return this.days;
+	   		 this.getFreq= function(){
+	   		 	return this.freq;
 	   		 }
 
 	   		 this.getStreak = function(){
@@ -67,9 +71,10 @@ var main = function(){
 	   		 this.setStreak = function(streak){
 	   		 	this.streak = streak;
 	   		 }
-	   		 this.addMark = function(day){
-	   		 	daysMarked.push(day);
+	   		 this.addMark = function(date){
+	   		 	this.daysFreq[date] = this.daysFreq[date] + 1;
 	   		 }
+	   		
 		}
 	}
 
@@ -83,7 +88,7 @@ var main = function(){
 		for(var i = 0; i < habits.length;i++){
 			var habit = habits[i];
 
-			var $row = $("<div class='row'>");
+			var $row = $("<div id='row" + (i+1) + "'class='row'>");
 
 			//tag
 			var $col = $("<div class='col-sm-1 tag'>");
@@ -97,7 +102,10 @@ var main = function(){
 
 			for(var j = 0; j < 7; j++){
 				$col = $("<div class='col-sm-1 name square' id='square" + (7*i+j + 1) + "'>");
-				$col.append($("<p>"));
+				var selector =".dates div:nth-child(" + (j+3) + ") p:first-child";
+				var thisDay = $(selector).text();
+				var freqThisDay = habit.getDaysFreq()[thisDay];
+				$col.append($("<p>").text(freqThisDay + " / " + habit.getFreq()));
 				$row.append($col);
 			}
 
@@ -132,22 +140,14 @@ var main = function(){
 
 		var name = $("#nameInput").val();
 		var tag = $("#tagInput").val();
-		var days = [];
-
-		for(var i = 1;i <= 7;i++){
-			var day = $('#day' + i + ':checked').val()
-
-			if(day != null){
-				days.push(day);
-			}
-		}
+		var freq = $("#freqInput").val();
 
 		var good = $('#goodHabit:checked').val();
 		if(good == null){
 			good = false;
 		}
 
-		var habit = new Habit(name,tag,good,days);
+		var habit = new Habit(name,tag,good,freq);
 		habits.push(habit);
 
 		$dialog.dialog('close');
@@ -221,7 +221,15 @@ var main = function(){
 			$(element).on("click", function () {
 
 				var $element = $(element);
+				var index = parseInt(($element.parent().attr('id')).substring(3,4)) - 1;
+				var date = $(".dates div:nth-child(" + ($element.index()+1) + ") p:first-child").text();
+				console.log(date);
+				console.log(habits[index]);
+				habits[index].addMark(date);
 				$element.css("background-color","green");
+				console.log(habits[index].getDaysFreq()[date]);
+				printHabits();
+				addListeners();
 				return false;
 			});
 		});
