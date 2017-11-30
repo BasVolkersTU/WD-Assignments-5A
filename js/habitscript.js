@@ -408,7 +408,9 @@ var main = function(){
 		$changeDialog.append($div);
 		$changeDialog.append($('<button id="confirmChanges">Ok</button>'));
 
-		$("#confirmChanges").on("click",function(){
+		
+
+		var confirmChanges = function(){
 			console.log("confirmed changes");
 			habit.setName($("#changeNameInput").val());
 			habit.setTag($("#changeTagInput").val());
@@ -431,26 +433,24 @@ var main = function(){
 			$inputGood.empty();
 			printHabits();
 			addListeners();	
+		}
+
+		$("#confirmChanges").on("click",function(){
+			confirmChanges();
 			return false;
+		});
+
+		$(document).keypress(function(e) {
+		    if(e.which == 13) {
+		        confirmChanges();
+		        $(document).off();
+				return false;
+		    }
 		});
 		
 	}
-	
-	$("#plus").on("click",function(){
-		$dialog.append($('<button id="addHabit">Add habit</button>'));
 
-		$dialog.dialog('open');
-
-		$("#addHabit").on("click",function(){
-			addHabit();
-			return false;
-		});
-		
-		
-		return false;
-	});
-
-	$("#left").on("click",function(){
+	var moveLeft = function(){
 		datePointingTo = decrementDate(datePointingTo);
 		console.log("Pointer: " + datePointingTo);
 		setWeek(datePointingTo);
@@ -464,10 +464,9 @@ var main = function(){
 		printWeek();
 		printHabits();
 		addListeners();
-		return false;
-	});
+	}
 
-	$("#right").on("click",function(){
+	var moveRight = function(){
 		datePointingTo = incrementDate(datePointingTo);
 		console.log("Pointer: " + datePointingTo);
 		setWeek(datePointingTo);
@@ -482,6 +481,47 @@ var main = function(){
 		printHabits();
 		addListeners();
 		
+	}
+	
+	$("#plus").on("click",function(){
+		$dialog.append($('<button id="addHabit">Add habit</button>'));
+
+		$dialog.dialog('open');
+
+		$("#addHabit").on("click",function(){
+			addHabit();
+			return false;
+		});
+		$(document).keypress(function(e) {
+		    if(e.which == 13) {
+		        addHabit();
+		        $(document).off();
+				return false;
+		    }
+		});
+		
+		
+		return false;
+	});
+
+
+	$("#left").on("click",function(){
+		moveLeft();
+		return false;
+	});
+
+	$("#right").on("click",function(){
+		moveRight();
+		return false;
+	});
+
+	$(document).on("keydown",function(e){
+		if(e.which == 39){
+			moveRight();
+		}
+		else if(e.which == 37){
+			moveLeft();
+		}
 		return false;
 	});
 
