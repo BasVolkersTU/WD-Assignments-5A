@@ -515,6 +515,7 @@ var main = function(){
 		return false;
 	});
 
+	/*
 	$(document).on("keydown",function(e){
 		if(e.which == 39){
 			moveRight();
@@ -523,7 +524,7 @@ var main = function(){
 			moveLeft();
 		}
 		return false;
-	});
+	});*/
 
 	$("#sort").on("click",function(){
 		var newHabits = habits;
