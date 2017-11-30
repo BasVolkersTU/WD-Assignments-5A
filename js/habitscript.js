@@ -145,6 +145,10 @@ var main = function(){
     	},
     	resizable:false,
     	modal:true,
+    	maxWidth:500,
+        maxHeight: 400,
+        width: 500,
+        height: 400
 	});
 
 	//Initialize changeDialog
@@ -160,6 +164,10 @@ var main = function(){
     	},
     	resizable:false,
     	modal:true,
+    	maxWidth:500,
+        maxHeight: 350,
+        width: 500,
+        height: 350
 	});
 
 	class Habit{
@@ -224,10 +232,41 @@ var main = function(){
 		}
 		var percentage = sum / 7 * 100;
 		console.log(percentage);
-		return percentage;
+
+		if(habit.getGood()){
+			return percentage;
+		}
+		else{
+			return (100-percentage);
+		}
 	}
 
 	var habits = [];
+
+	var greenLowEnd = {'r':204,'g':255,'b':204};
+	var greenHighEnd = {'r':0,'g':255,'b':0};
+	var redLowEnd = {'r':255,'g':102,'b':102};
+	var redHighEnd = {'r':255,'g':0,'b':0};
+
+	var calculateColor = function(isGood,ratio){
+		console.log("Color: " + isGood);
+		console.log("ratio: " + ratio)
+		var r,g,b;
+		if(isGood){
+			g = 255;
+			r = Math.round(204-204 * ratio)
+			b = r;
+		}
+		else{
+			r =255
+			g = Math.round(102-102 * ratio)
+			b = g;
+		}
+
+		var rgb = "rgb(" + r + "," + g + "," + b +")";
+		console.log(rgb);
+		return rgb;
+	}
 
 	var printHabits = function(){
 		console.log(habits);
@@ -251,13 +290,21 @@ var main = function(){
 
 			//squares
 			for(var j = 0; j < 7; j++){
-				$col = $("<div class='col-sm-1 name square' id='square" + (7*i+j + 1) + "'>");
+				$col = $("<div class='col-sm-1 square' id='square" + (7*i+j + 1) + "'>");
 				var selector =".dates div:nth-child(" + (j+3) + ") p:first-child";
 				var thisDay = $(selector).text();
 				var freqThisDay = habit.getDaysFreq()[thisDay];
 				$col.append($("<p>").text(freqThisDay + " / " + habit.getFreq()));
 				$col.append($("<button id='button" + (j+1) + "add'>+</button>"))
 				$col.append($("<button id='button" + (j+1) + "del'>-</button>"))
+
+				var backgroundColor = calculateColor(habit.getGood(),(freqThisDay/habit.getFreq()));
+				if(habit.getGood() && freqThisDay > 0){
+					$col.css("background",backgroundColor);
+				}
+				else if(!habit.getGood() && freqThisDay > 0){
+					$col.css("background",backgroundColor);
+				}
 				$row.append($col);
 			}
 
@@ -338,8 +385,11 @@ var main = function(){
 		$changeDialog.append('<p>Tag:<input value ="' + habit.getTag() + '" class="textInput" id="changeTagInput" type="text" /></p>')
 		$changeDialog.append('<p>Frequency:<input value ="' + habit.getFreq() + '" class="textInput" id="changeFreqInput" type="text" /></p>')
 		var $div = $('<div>');
+		var $span1 = $('<span class="leftbox">')
+		var $span2 = $('<span class="rightbox">')
 		var $inputGood = $('<input type="radio" id="goodChangeHabit" name="days" value="true"/>')
 		var $inputBad = $('<input type="radio" id="badChangeHabit" name="days" value="false"/>');
+		$div.append('<p>Is it a good or bad habit?</p>')
 		if(habit.getGood()){
 			$inputGood.attr("checked","checked");
 		}
@@ -347,11 +397,13 @@ var main = function(){
 			$inputBad.attr("checked","checked");
 		}
 
-		$div.append($inputGood);
-		$div.append('<label for="goodChangeHabit">Good Habit</label>');
-		$div.append($inputBad);
-		$div.append('<label for="badChangeHabit">Bad Habit</label>');
+		$span1.append($inputGood);
+		$span1.append('<label for="goodChangeHabit">Good Habit</label>');
+		$div.append($span1);
 
+		$span2.append($inputBad);
+		$span2.append('<label for="badChangeHabit">Bad Habit</label>');
+		$div.append($span2);
 
 		$changeDialog.append($div);
 		$changeDialog.append($('<button id="confirmChanges">Ok</button>'));
@@ -431,6 +483,22 @@ var main = function(){
 		addListeners();
 		
 		return false;
+	});
+
+	$("#sort").on("click",function(){
+		var newHabits = habits;
+		console.log(newHabits);
+
+		newHabits.sort(function(a,b){
+			return (calculuteWeekPrec(b)-calculuteWeekPrec(a));
+		});
+
+		console.log("Sorted:")
+		console.log(newHabits);
+
+		habits = newHabits;
+		printHabits();
+		addListeners();
 	});
 
 	var addListeners = function(){

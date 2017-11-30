@@ -10,6 +10,7 @@ i {
 #dialog {
     display:none;
     text-align: left;
+
 }
 
 #changeDialog {
@@ -107,6 +108,7 @@ main .square:hover{
 
 .fa{
 	cursor: pointer;
+	font-size: 4.5em;
 }
 
 footer{
@@ -137,3 +139,20 @@ footer .right{
 footer button{
 	margin: 1em
 }
+
+.fa-trash, .fa-cog{
+	margin-top: 0.4em;
+}
+
+.percentage{
+	font-weight: bold;
+	font-size: 1.4em;
+	margin-top: 2em;
+}
+
+.tag, .name{
+	font-weight: bold;
+	font-size: 1.4em;
+	margin-top: 2em;
+}
+
