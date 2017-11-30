@@ -1,7 +1,136 @@
 var main = function(){
 	"use strict";
 
-	var weeks =[];
+	var week =[];
+	var datePointingTo = new Date();
+
+	var daysOfMonth = {
+		"Jan":31,
+		"Feb":28,
+		"Mar":31,
+		"Apr":30,
+		"May":31,
+		"Jun":30,
+		"Jul":31,
+		"Aug":31,
+		"Sep":30,
+		"Oct":31,
+		"Nov":30,
+		"Dec":31,
+	};
+	var months = {
+		1:"Jan",
+		2:"Feb",
+		3:"Mar",
+		4:"Apr",
+		5:"May",	
+		6:"Jun",	
+		7:"Jul",	
+		8:"Aug",	
+		9:"Sep",	
+		10:"Oct",		
+		11:"Nov",
+		12:"Dec"
+	};
+
+	var incrementDate = function(date){
+		var dateString = date.toDateString();
+		var day = parseInt(dateString.substring(8,10));
+		var month = date.toDateString().substring(4,7);
+		var year = parseInt(dateString.substring(11,15));
+
+		if(day + 1 <= daysOfMonth[month]){
+			day++;
+		}	
+		else{
+			day = 1;
+			var monthNum = 0;
+			if(date.getMonth() + 2 < 13 ){
+				monthNum = date.getMonth() + 2;
+			}
+			else{
+				monthNum = 1;
+				year++;
+			}
+			month = months[monthNum];
+		}
+
+		var newDateString = month + " " + day + " " + year;
+		//console.log("new date: " + newDateString);
+		date = new Date(newDateString);
+		return date;
+	}
+
+	var decrementDate = function(date){
+		var dateString = date.toDateString();
+		var day = parseInt(dateString.substring(8,10));
+		var month = date.toDateString().substring(4,7);
+		var year = parseInt(dateString.substring(11,15));
+
+
+		if(day - 1 > 0){
+			day--;		
+		}
+		else{
+			var monthNum = 0;
+			if(date.getMonth() > 1){
+				monthNum = date.getMonth();
+				console.log("new monthNum: " + monthNum);
+			}
+			else{
+				monthNum = 12;
+				year--;
+			}
+			month = months[monthNum];
+			day = daysOfMonth[month];
+			
+		}
+		var newDateString = month + " " + day + " " + year;
+		console.log("new date: " + newDateString);
+		date = new Date(newDateString);
+		console.log(date);
+		return date;
+	}
+
+	var setWeek = function(date){
+		week = [];
+		for(var i = 0; i <7;i++){
+			var day = parseInt(date.toDateString().substring(8,10))
+			var month = date.toDateString().substring(4,7);
+			var weekDay = date.toDateString().substring(0,4);
+			var thisDate = day + " " + month;
+			week.push({
+				"weekDay":weekDay,
+				"date":thisDate
+			});
+			date = incrementDate(date);
+		}
+	}
+
+	var printWeek = function(){
+		for(var i = 0;i <7;i++){
+			var divSelector =("main .dates div:nth-child(" + (i+3) + ")");
+			var $pDate = $(divSelector + " p:first-child");
+			$pDate.text(week[i]["date"]);
+
+			var $pDay = $(divSelector + " p:nth-child(2)");
+			$pDay.text(week[i]["weekDay"]);
+			$pDay.text()
+		}
+	}
+
+
+	setWeek(datePointingTo);
+	printWeek();
+	console.log(week);
+
+
+
+
+
+
+
+
 
 	//Initialize dialog
 	var $dialog = $("#dialog").dialog({
@@ -34,13 +163,12 @@ var main = function(){
 	});
 
 	class Habit{
-		constructor(name,tag,good,freq){
+		constructor(name,tag,good,freq,daysFreq){
 			this.tag = tag;
 			this.name = name;
 			this.good = good;
 			this.freq = freq;
-			this.daysFreq = {"1 Apr":0};
-			this.streak = 0;
+			this.daysFreq = daysFreq;
 
 			this.getDaysFreq = function(){
 				return this.daysFreq;
@@ -72,13 +200,6 @@ var main = function(){
 	   		 this.setFreq = function(freq){
 	   		 	this.freq = freq;
 	   		 }
-
-	   		 this.getStreak = function(){
-	   		 	return this.streak;
-	   		 }
-	   		 this.setStreak = function(streak){
-	   		 	this.streak = streak;
-	   		 }
 	   		 this.addMark = function(date){
 	   		 	if(this.daysFreq[date] < this.freq){
 	   		 		this.daysFreq[date] = this.daysFreq[date] + 1;
@@ -91,6 +212,19 @@ var main = function(){
 	   		 }
 	   		
 		}
+	}
+
+	var calculuteWeekPrec = function(habit){
+		var sum = 0
+		for(var l = 0;l < 7;l++){
+			var	date = week[l]["date"];
+			var ratio = habit.getDaysFreq()[date] / habit.getFreq();
+			console.log(ratio);
+			sum += ratio;
+		}
+		var percentage = sum / 7 * 100;
+		console.log(percentage);
+		return percentage;
 	}
 
 	var habits = [];
@@ -127,19 +261,21 @@ var main = function(){
 				$row.append($col);
 			}
 
-			//streak
-			$col = $("<div class='col-sm-1 name'>");
-			$col.append($("<p>").text(habit.getStreak()));
-			$row.append($col);
+			
 
 			//gearwheel icon
-			$col = $("<div class='col-sm-1 name'>");
+			$col = $("<div class='col-sm-1 '>");
 			$col.append($("<i id='change" + (i+1) + "' class='fa fa-cog'>"));
 			$row.append($col);
 
 			//trash icon
-			$col = $("<div class='col-sm-1 name'>");
+			$col = $("<div class='col-sm-1 '>");
 			$col.append($("<i id='delete" + (i+1) + "' class='fa fa-trash'>"));
+			$row.append($col);
+
+			//percentage
+			$col = $("<div class='col-sm-1 percentage'>");
+			$col.append($("<p>").text(Math.round(calculuteWeekPrec(habit)*10)/10 + "%"));
 			$row.append($col);
 
 			var $habit = $("<div class='habit'>");
@@ -165,7 +301,13 @@ var main = function(){
 			good = false;
 		}
 
-		var habit = new Habit(name,tag,good,freq);
+		var daysFreq = {};
+		for(var k = 0;k < 7;k++){
+			daysFreq[week[k]["date"]] = 0;
+		}
+
+
+		var habit = new Habit(name,tag,good,freq,daysFreq);
 		habits.push(habit);
 
 		$dialog.dialog('close');
@@ -173,6 +315,7 @@ var main = function(){
 	    //clear textfields
 	 	$("#nameInput").val("");
 	    $("#tagInput").val("");
+	    $("#freqInput").val("");
 
 		//uncheck buttons
 		for(var i = 1;i <= 7;i++){
@@ -256,13 +399,36 @@ var main = function(){
 	});
 
 	$("#left").on("click",function(){
-		console.log("left");
-		
+		datePointingTo = decrementDate(datePointingTo);
+		console.log("Pointer: " + datePointingTo);
+		setWeek(datePointingTo);
+		var dateToAdd = week[0]['date'];
+		habits.forEach(function(habit){
+			var daysFreq = habit.getDaysFreq();
+			if(!(dateToAdd in daysFreq)){
+				daysFreq[dateToAdd] = 0;	
+			}
+		});
+		printWeek();
+		printHabits();
+		addListeners();
 		return false;
 	});
 
 	$("#right").on("click",function(){
-		console.log("right");
+		datePointingTo = incrementDate(datePointingTo);
+		console.log("Pointer: " + datePointingTo);
+		setWeek(datePointingTo);
+		var dateToAdd = week[6]['date'];		
+		habits.forEach(function(habit){
+			var daysFreq = habit.getDaysFreq();
+			if(!(dateToAdd in daysFreq)){
+				daysFreq[dateToAdd] = 0;	
+			}
+		});
+		printWeek();
+		printHabits();
+		addListeners();
 		
 		return false;
 	});
@@ -273,9 +439,10 @@ var main = function(){
 				var $element = $(element);
 				console.log($element);
 				var id = (($element.attr('id')));
+				var dateNum = (parseInt(id.substring(6,7)));
 				var habitIndex = ($element.parent().parent().parent().index());
 				console.log("habitIndex = " + habitIndex);
-				var date = $(".dates div:nth-child(" + (habitIndex+3) + ") p:first-child").text();
+				var date = $(".dates div:nth-child(" + (2+dateNum) + ") p:first-child").text();
 				console.log("Date: " + date);
 				console.log("Id: " + id.substring(7,10));
 				

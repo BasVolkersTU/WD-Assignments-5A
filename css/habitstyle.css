@@ -50,6 +50,12 @@ i {
 	font-size:4.5em;
 }
 
+#pieChart{
+	font-size: 4.5em;
+}
+#pieChart:hover{
+	cursor: default;
+}
 header{
 	background: #29ABA4;
 }
