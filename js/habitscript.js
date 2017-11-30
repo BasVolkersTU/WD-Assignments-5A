@@ -1,6 +1,8 @@
 var main = function(){
 	"use strict";
 
+	var weeks =[];
+
 	//Initialize dialog
 	var $dialog = $("#dialog").dialog({
 		    autoOpen: false,
@@ -61,8 +63,14 @@ var main = function(){
 	   		 this.getGood = function () {
 	        	return this.good;
 	   		 };
+	   		 this.setGood = function(good){
+	   		 	this.good = good;
+	   		 }
 	   		 this.getFreq= function(){
 	   		 	return this.freq;
+	   		 }
+	   		 this.setFreq = function(freq){
+	   		 	this.freq = freq;
 	   		 }
 
 	   		 this.getStreak = function(){
@@ -72,7 +80,14 @@ var main = function(){
 	   		 	this.streak = streak;
 	   		 }
 	   		 this.addMark = function(date){
-	   		 	this.daysFreq[date] = this.daysFreq[date] + 1;
+	   		 	if(this.daysFreq[date] < this.freq){
+	   		 		this.daysFreq[date] = this.daysFreq[date] + 1;
+	   		 	}
+	   		 }
+	   		 this.delMark = function(date){
+	   		 	if(this.daysFreq[date] > 0){
+	   		 		this.daysFreq[date] = this.daysFreq[date] - 1;
+	   		 	}
 	   		 }
 	   		
 		}
@@ -100,12 +115,15 @@ var main = function(){
 			$col.append($("<p>").text(habit.getName()));
 			$row.append($col);
 
+			//squares
 			for(var j = 0; j < 7; j++){
 				$col = $("<div class='col-sm-1 name square' id='square" + (7*i+j + 1) + "'>");
 				var selector =".dates div:nth-child(" + (j+3) + ") p:first-child";
 				var thisDay = $(selector).text();
 				var freqThisDay = habit.getDaysFreq()[thisDay];
 				$col.append($("<p>").text(freqThisDay + " / " + habit.getFreq()));
+				$col.append($("<button id='button" + (j+1) + "add'>+</button>"))
+				$col.append($("<button id='button" + (j+1) + "del'>-</button>"))
 				$row.append($col);
 			}
 
@@ -175,14 +193,47 @@ var main = function(){
 		$changeDialog.append('<h1>Change habit</h1>')
 		$changeDialog.append('<p>Name:<input value ="' + habit.getName() + '" class="textInput" id="changeNameInput" type="text" /></p>');
 		$changeDialog.append('<p>Tag:<input value ="' + habit.getTag() + '" class="textInput" id="changeTagInput" type="text" /></p>')
+		$changeDialog.append('<p>Frequency:<input value ="' + habit.getFreq() + '" class="textInput" id="changeFreqInput" type="text" /></p>')
+		var $div = $('<div>');
+		var $inputGood = $('<input type="radio" id="goodChangeHabit" name="days" value="true"/>')
+		var $inputBad = $('<input type="radio" id="badChangeHabit" name="days" value="false"/>');
+		if(habit.getGood()){
+			$inputGood.attr("checked","checked");
+		}
+		else{
+			$inputBad.attr("checked","checked");
+		}
+
+		$div.append($inputGood);
+		$div.append('<label for="goodChangeHabit">Good Habit</label>');
+		$div.append($inputBad);
+		$div.append('<label for="badChangeHabit">Bad Habit</label>');
+
+
+		$changeDialog.append($div);
 		$changeDialog.append($('<button id="confirmChanges">Ok</button>'));
 
 		$("#confirmChanges").on("click",function(){
 			console.log("confirmed changes");
 			habit.setName($("#changeNameInput").val());
 			habit.setTag($("#changeTagInput").val());
+			habit.setFreq($("#changeFreqInput").val());
+
+			var good = $('#goodChangeHabit:checked').val();
+			if(good){
+				habit.setGood(true);
+				console.log("setting habit to good");
+			}
+			else{
+				habit.setGood(false);
+				console.log("setting habit to bad");
+			}
+
 			$changeDialog.dialog('close');
 			$changeDialog.empty();
+			$div.empty();
+			$inputBad.empty();
+			$inputGood.empty();
 			printHabits();
 			addListeners();	
 			return false;
@@ -217,17 +268,28 @@ var main = function(){
 	});
 
 	var addListeners = function(){
-		$("main .content .square").toArray().forEach(function(element){
+		$("main .content button").toArray().forEach(function(element){
 			$(element).on("click", function () {
-
 				var $element = $(element);
-				var index = parseInt(($element.parent().attr('id')).substring(3,4)) - 1;
-				var date = $(".dates div:nth-child(" + ($element.index()+1) + ") p:first-child").text();
-				console.log(date);
-				console.log(habits[index]);
-				habits[index].addMark(date);
-				$element.css("background-color","green");
-				console.log(habits[index].getDaysFreq()[date]);
+				console.log($element);
+				var id = (($element.attr('id')));
+				var habitIndex = ($element.parent().parent().parent().index());
+				console.log("habitIndex = " + habitIndex);
+				var date = $(".dates div:nth-child(" + (habitIndex+3) + ") p:first-child").text();
+				console.log("Date: " + date);
+				console.log("Id: " + id.substring(7,10));
+				
+				if(id.substring(7,10) == "add"){
+					habits[habitIndex].addMark(date);
+				}
+				else{
+					habits[habitIndex].delMark(date);
+				}
+
+			
+
+
+
 				printHabits();
 				addListeners();
 				return false;
