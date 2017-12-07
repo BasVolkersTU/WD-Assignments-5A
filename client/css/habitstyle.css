@@ -14,7 +14,7 @@ background: #FCD0A1 lightbrown
 */
 #addDialog{
 	display: none;
-	background: orange;
+	background: #c0a78c;
 	border: 1px solid black;
 
 }
@@ -25,7 +25,7 @@ background: #FCD0A1 lightbrown
 
 body{
 	text-align: center;
-	background: #FCD0A1;
+	background: #E9E0D6;
 	font-size: 1.1em;
 	font-family: 'Ubuntu','Sans-serif';
 }
@@ -33,7 +33,7 @@ body{
 
 header{
 	height: auto;
-	background: #DD1C1A;
+	background: #29ABA4;
 	padding-bottom: 0%;
 }
 
@@ -94,7 +94,7 @@ main .habit li{
 	display: inline-block;
 	max-width: 10%;
 	min-width: 10%;
-	background: #846C5B;
+	background: #9ca191;
 	
 	padding: 0.1em;
 	margin-right: 1em;
@@ -134,7 +134,7 @@ footer .right ul{
 
 footer{
 	clear: left;
-	background: #443742;
+	background: #354458;
 	color: #f2f2f2;
 	padding-bottom: 3%;
 }
