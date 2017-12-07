@@ -3,204 +3,134 @@
 <head>
 	<title>Habit tracker</title>
 	<link href="https://fonts.googleapis.com/css?family=Lato|Ubuntu" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
 	<link rel="stylesheet" href="../css/habitstyle.css" type="text/css">
 </head>
 
 <body>
 	<header>
-	<div class="container-fluid">
-	<div class = "page-header">
-		
-		<div class="row">
-				<div class="col-sm-3">
+				<div class="left">
 					<img src="../res/logosmall.png" id="logosmall">
 				</div>
 
-				<div class="col-sm-6">
+				<div class="middle">
 					<h1>Hackbit</h1>
 				</div>
 
-				<div class="col-sm-3">
+				<div class="right">
 					<div class="buttons">
-					<button type="button" class="btn btn-secondary black-button">Sign up</button>
-					<button type="button" class="btn btn-secondary black-button">Log in</button>
+					<button type="button">Sign up</button>
+					<button type="button">Log in</button>
+					</div>
 				</div>
-					
-				</div>
-		</div>
-	</div>
-	</div>
-</header>
+				
+	</header>
 	<main>
-		<div class="container-fluid">
-			<div class="row dates">
-				<div class="col-sm-1 lefticons">
-					<i id="plus" class="fa fa-plus-circle"></i>
+			<div class="dates">
 
-				</div>
-
-				<div class="col-sm-1 lefticons">
-					<i id="left" class="fa fa-chevron-left arrow"></i>
-				</div>
-
-
-				<div class="col-sm-1 date">
-						<p>1 Apr</p>
-						<p>Mon</p>
-				</div>
-				<div class="col-sm-1 date">
-						<p>1 Apr</p>
-						<p>Mon</p>
-				</div>
-				<div class="col-sm-1 date">
-						<p>1 Apr</p>
-						<p>Mon</p>
-				</div>
-				<div class="col-sm-1 date">
-						<p>1 Apr</p>
-						<p>Mon</p>
-				</div>
-				<div class="col-sm-1 date">
-						<p>1 Apr</p>
-						<p>Mon</p>
-				</div>
-				<div class="col-sm-1 date">
-						<p>1 Apr</p>
-						<p>Mon</p>
-				</div>
-				<div class="col-sm-1 date">
-						<p>1 Apr</p>
-						<p>Mon</p>
-				</div>
-
-				<div class="col-sm-2 righticons">
-					<i id="right" class="fa fa-chevron-right arrow"></i>
-				</div>
-				<div class="col-sm-1 percentageIcon">
-					<i id="sort" class="fa fa-pie-chart"></i>
-				</div>
-
+				<ul>
+					<li><i id="plus" class="fa fa-plus-circle"></i></li>
+					<li><p>1 Apr</p></li>
+					<li><p>1 Apr</p></li>
+					<li><p>1 Apr</p></li>
+					<li><p>1 Apr</p></li>
+					<li><p>1 Apr</p></li>
+					<li><p>1 Apr</p></li>
+					<li><p>1 Apr</p></li>
+				</ul>
 			</div>
 
 			<div class="content">
 				<div class="habit">
-				<div id="row1" class="row ">
-					<div class="col-sm-1 tag">
+					<span class="info">
 						<p>Tag</p>
-					</div>
-					<div class="col-sm-1 name">
 						<p>Name</p>
-					</div>
+					</span>
 
-					<div class="col-sm-1 square">
-						<p></p>
-					</div>
-					<div class="col-sm-1 square">
-						<p></p>
-					</div>
-					<div class="col-sm-1 square">
-						<p></p>
-					</div>
-					<div class="col-sm-1 square">
-						<p></p>
-					</div>
-					<div class="col-sm-1 square">
-						<p></p>
-					</div>
-					<div class="col-sm-1 square">
-						<p></p>
-					</div>
-					<div class="col-sm-1 square">
-						<p></p>
-					</div>
+						<ul class="boxes">
+							<li><p>1/2</p></li>
+							<li><p>1/2</p></li>
+							<li><p>1/2</p></li>
+							<li><p>1/2</p></li>
+							<li><p>1/2</p></li>
+							<li><p>1/2</p></li>
+							<li><p>1/2</p></li>
+						</ul>
 
-					<div class="col-sm-3 righticons">
-					</div>
+
+					<span class="icons">
+						<i class="fa fa-trash"></i>
+						<i class="fa fa-cog"></i>
+					</span>
 				</div>
+				<div class="habit">
+					<span class="info">
+						<p>Tag222</p>
+						<p>Name2.55.</p>
+					</span>
+
+						<ul class="boxes">
+							<li><p>15/20</p></li>
+							<li><p>15/20</p></li>
+							<li><p>15/20</p></li>
+							<li><p>15/20</p></li>
+							<li><p>15/20</p></li>
+							<li><p>15/20</p></li>
+							<li><p>15/20</p></li>
+						</ul>
+
+
+					<span class="icons">
+						<i class="fa fa-trash"></i>
+						<i class="fa fa-cog"></i>
+					</span>
 				</div>
 			</div>
-		</div>
 
-
-		<div id="dialog" title="Hackbit">
-			<h1>Add a habit</h1>
-			  <p>Please specify the following fields:</p>
-			  <p>Name:<input class="textInput" id="nameInput" type="text" /></p>
-			  <p>Tag:<input class="textInput" id="tagInput" type="text" /></p>
-			  <p>Desired freq.:<input class="textInput" id="freqInput" type="text" /></p>
-
-			  <div>
-				  <p>Is it a good or bad habit?</p>
-				  <span class="leftbox" >
-				  <input type="radio" id="goodHabit" name="days" value="true" checked="checked">
-				  <label for="goodHabit">Good Habit</label>
-				</span>
-
-				  <span class="leftbox" >
-				  <input type="radio" id="badHabit" name="days" value="false">
-				  <label for="badHabit">Bad Habit</label>
-				</span>
-			</div>
-
-		
-		</div>
-
-		<div id="changeDialog" title="Hackbit">
-		
-
-		</div>
-		
-
-
-					
+				<div id="addDialog">
+					<h1>Add habit</h1>
+					<p>Name:</p><input type="text" name="name" id="nameInput"/>
+					<p>Tag:</p><input type="text" name="tag" id="tagInput"/>
+					<p>Frequency:</p><input type="text" name="freq" id="freqInput"/>
+					<p>Good or bad?</p>
+					<input type="radio" name="choice" id="goodInput" checked="checked" value="true"/>
+					<label for="goodInput">Good</label>
+					<input type="radio" name="choice" id="badInput" value="false";/>
+					<label for="goodInput">Bad</label>
+					<button id = "addHabit" type="button">Submit</button>
+						
+				</div>				
 		
 	</main>
 	<footer>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-sm-3">
-				<div class="left">
-					<p>Made by:</p>
-					<ul>
-						<li>Cherwin Ort</li>
-						<li>Bas Volkers</li>
-					</ul>
-					<p>© 2017. All rights reserved.</p>
-				</div>
-			</div>
-
-			<div class="col-sm-6">
-				<div class="middle">
-					<button type="button" class="btn btn-secondary">Sign up</button>
-					<button type="button" class="btn btn-secondary">Log in</button>
-				</div>
-			</div>
-
-			<div class="col-sm-3">
-				<div class="right">
-					<div class="container-fluid">
-						<div class="row">
-						<div class="col-sm-6">
-							<p>About</p>
-							<p>Contact</p>
-						</div>
-						<div class="col-sm-6">
-							<p>Support</p>
-							<p>FAQ</p>
-						</div>
-					</div>
-					</div>
-				</div>
+		<div class="left">
+			<div class="content">
+				<p>Made by:</p>
+				<ul>
+					<li>Cherwin Ort</li>
+					<li>Bas Volkers</li>
+				</ul>	
 			</div>
 		</div>
-	</div>
-</footer>
+
+		<div class="middle">
+				<button type="button">Sign up</button>
+				<button type="button">Log in</button>
+		</div>
+
+		<div class = "right">
+			<ul>
+				<li class="leftelement">About</li>
+				<li class="rightelement">FAQ</li>
+				<li class="leftelement">Contact</li>
+				<li class="rightelement">Support</li>
+			</ul>
+		</div>
+
+
+	</footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="../js/habitscript.js"></script>
 
 

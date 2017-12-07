@@ -120,9 +120,6 @@ var main = function(){
 	}
 
 
-	setWeek(datePointingTo);
-	printWeek();
-	console.log(week);
 
 
 
@@ -131,44 +128,7 @@ var main = function(){
 
 
 
-
-	//Initialize dialog
-	var $dialog = $("#dialog").dialog({
-		    autoOpen: false,
-	    show: {
-	        effect: "blind",
-	        duration: 1000
-	    },
-	    hide: {
-	        effect: "fade",
-	        duration: 0
-    	},
-    	resizable:false,
-    	modal:true,
-    	maxWidth:500,
-        maxHeight: 400,
-        width: 500,
-        height: 400
-	});
-
-	//Initialize changeDialog
-	var $changeDialog = $("#changeDialog").dialog({
-		    autoOpen: false,
-	    show: {
-	        effect: "blind",
-	        duration: 1000
-	    },
-	    hide: {
-	        effect: "fade",
-	        duration: 0
-    	},
-    	resizable:false,
-    	modal:true,
-    	maxWidth:500,
-        maxHeight: 350,
-        width: 500,
-        height: 350
-	});
+	
 
 	class Habit{
 		constructor(name,tag,good,freq,daysFreq){
@@ -271,119 +231,47 @@ var main = function(){
 	var printHabits = function(){
 		console.log(habits);
 		console.log("printing habits");
-		$(".content").empty();
+		$("main .content").empty();
 
 		for(var i = 0; i < habits.length;i++){
 			var habit = habits[i];
 
-			var $row = $("<div id='row" + (i+1) + "'class='row'>");
+			var $div = $("<div>").addClass('habit');
+			
+			//for info, name and tag
+			var $span = $("<span>").addClass('info');
+			$span.append($("<p>").text(habit.getTag()));
+			$span.append($("<p>").text(habit.getName()));
 
-			//tag
-			var $col = $("<div class='col-sm-1 tag'>");
-			$col.append($("<p>").text(habit.getTag()));
-			$row.append($col);
+			$div.append($span);
 
-			//name
-			$col = $("<div class='col-sm-1 name'>");
-			$col.append($("<p>").text(habit.getName()));
-			$row.append($col);
+			var $ul = $("<ul>").addClass('boxes');
 
-			//squares
-			for(var j = 0; j < 7; j++){
-				$col = $("<div class='col-sm-1 square' id='square" + (7*i+j + 1) + "'>");
-				var selector =".dates div:nth-child(" + (j+3) + ") p:first-child";
-				var thisDay = $(selector).text();
-				var freqThisDay = habit.getDaysFreq()[thisDay];
-				$col.append($("<p>").text(freqThisDay + " / " + habit.getFreq()));
-				$col.append($("<button id='button" + (j+1) + "add'>+</button>"))
-				$col.append($("<button id='button" + (j+1) + "del'>-</button>"))
-
-				var backgroundColor = calculateColor(habit.getGood(),(freqThisDay/habit.getFreq()));
-				if(habit.getGood() && freqThisDay > 0){
-					$col.css("background",backgroundColor);
-				}
-				else if(!habit.getGood() && freqThisDay > 0){
-					$col.css("background",backgroundColor);
-				}
-				$row.append($col);
+			for(var j = 0; j <7;j++){
+				var $li = $("<li>").append($("<p>").text("0 / " + habit.getFreq()));
+				$ul.append($li);
 			}
 
-			
+			$div.append($ul);
 
-			//gearwheel icon
-			$col = $("<div class='col-sm-1 '>");
-			$col.append($("<i id='change" + (i+1) + "' class='fa fa-cog'>"));
-			$row.append($col);
+			var $iconSpan = $("<span>").addClass('icons');
+			$iconSpan.append($("<i>").addClass('fa fa-trash'));
+			$iconSpan.append($("<i>").addClass('fa fa-cog'));
 
-			//trash icon
-			$col = $("<div class='col-sm-1 '>");
-			$col.append($("<i id='delete" + (i+1) + "' class='fa fa-trash'>"));
-			$row.append($col);
+			$div.append($iconSpan);
 
-			//percentage
-			$col = $("<div class='col-sm-1 percentage'>");
-			$col.append($("<p>").text(Math.round(calculuteWeekPrec(habit)*10)/10 + "%"));
-			$row.append($col);
-
-			var $habit = $("<div class='habit'>");
-			$habit.append($row);
-			$("main .content").append($habit);
-
-
+			$("main .content").append($div);
 		}
 	}
 
-
-	printHabits();
-
-	var addHabit = function(){
-		console.log("calling add habit");
-
-		var name = $("#nameInput").val();
-		var tag = $("#tagInput").val();
-		var freq = $("#freqInput").val();
-
-		var good = $('#goodHabit:checked').val();
-		if(good == null){
-			good = false;
-		}
-
-		var daysFreq = {};
-		for(var k = 0;k < 7;k++){
-			daysFreq[week[k]["date"]] = 0;
-		}
-
-
-		var habit = new Habit(name,tag,good,freq,daysFreq);
+	var addHabit = function(habit){
 		habits.push(habit);
-
-		$dialog.dialog('close');
-
-	    //clear textfields
-	 	$("#nameInput").val("");
-	    $("#tagInput").val("");
-	    $("#freqInput").val("");
-
-		//uncheck buttons
-		for(var i = 1;i <= 7;i++){
-			$('#day' + i + ':checked').prop("checked", false);
-		}
-
-		$("#goodHabit").prop("checked", true);
-
-		$dialog.children().last().remove();
-		printHabits();
-		addListeners();	
 	}
 
 	var changeHabit = function(habit){
-		$changeDialog.dialog('open');
+		
 		console.log(habit);
 
-		$changeDialog.append('<h1>Change habit</h1>')
-		$changeDialog.append('<p>Name:<input value ="' + habit.getName() + '" class="textInput" id="changeNameInput" type="text" /></p>');
-		$changeDialog.append('<p>Tag:<input value ="' + habit.getTag() + '" class="textInput" id="changeTagInput" type="text" /></p>')
-		$changeDialog.append('<p>Frequency:<input value ="' + habit.getFreq() + '" class="textInput" id="changeFreqInput" type="text" /></p>')
 		var $div = $('<div>');
 		var $span1 = $('<span class="leftbox">')
 		var $span2 = $('<span class="rightbox">')
@@ -405,9 +293,7 @@ var main = function(){
 		$span2.append('<label for="badChangeHabit">Bad Habit</label>');
 		$div.append($span2);
 
-		$changeDialog.append($div);
-		$changeDialog.append($('<button id="confirmChanges">Ok</button>'));
-
+		
 		
 
 		var confirmChanges = function(){
@@ -426,8 +312,6 @@ var main = function(){
 				console.log("setting habit to bad");
 			}
 
-			$changeDialog.dialog('close');
-			$changeDialog.empty();
 			$div.empty();
 			$inputBad.empty();
 			$inputGood.empty();
@@ -483,128 +367,41 @@ var main = function(){
 		
 	}
 	
-	$("#plus").on("click",function(){
-		$dialog.append($('<button id="addHabit">Add habit</button>'));
+	addHabit(new Habit("name","tag",true,5,{}));
+	printHabits();
+	console.log(habits);
 
-		$dialog.dialog('open');
+	$("#plus").on('click',function(){
+		$("#addDialog").css('display','block');
 
-		$("#addHabit").on("click",function(){
-			addHabit();
-			return false;
+		$("#addHabit").on('click',function(){
+			var name = $('#nameInput').val();
+			var tag = $('#tagInput').val();
+			var freq = $('#freqInput').val();
+			var good = $('input[name=choice]:checked').val();
+			if(good === 'true'){
+				good = true;
+			}
+			else {
+				good = false;
+			}
+			$("#nameInput").val("");
+			$("#tagInput").val("");
+			$("#freqInput").val("");
+			$("#goodInput").prop('checked',true);
+
+
+			addHabit(new Habit(name,tag,good,freq,{}));
+			console.log(habits);
+
+
+			$("#addDialog").css('display','none');
+
+			$("#addHabit").off();
+			printHabits();
 		});
-		$(document).keypress(function(e) {
-		    if(e.which == 13) {
-		        addHabit();
-		        $(document).off();
-				return false;
-		    }
-		});
-		
-		
-		return false;
+
 	});
-
-
-	$("#left").on("click",function(){
-		moveLeft();
-		return false;
-	});
-
-	$("#right").on("click",function(){
-		moveRight();
-		return false;
-	});
-
-	/*
-	$(document).on("keydown",function(e){
-		if(e.which == 39){
-			moveRight();
-		}
-		else if(e.which == 37){
-			moveLeft();
-		}
-		return false;
-	});*/
-
-	$("#sort").on("click",function(){
-		var newHabits = habits;
-		console.log(newHabits);
-
-		newHabits.sort(function(a,b){
-			return (calculuteWeekPrec(b)-calculuteWeekPrec(a));
-		});
-
-		console.log("Sorted:")
-		console.log(newHabits);
-
-		habits = newHabits;
-		printHabits();
-		addListeners();
-	});
-
-	var addListeners = function(){
-		$("main .content button").toArray().forEach(function(element){
-			$(element).on("click", function () {
-				var $element = $(element);
-				console.log($element);
-				var id = (($element.attr('id')));
-				var dateNum = (parseInt(id.substring(6,7)));
-				var habitIndex = ($element.parent().parent().parent().index());
-				console.log("habitIndex = " + habitIndex);
-				var date = $(".dates div:nth-child(" + (2+dateNum) + ") p:first-child").text();
-				console.log("Date: " + date);
-				console.log("Id: " + id.substring(7,10));
-				
-				if(id.substring(7,10) == "add"){
-					habits[habitIndex].addMark(date);
-				}
-				else{
-					habits[habitIndex].delMark(date);
-				}
-
-			
-
-
-
-				printHabits();
-				addListeners();
-				return false;
-			});
-		});
-
-		$("main .content .fa-trash").toArray().forEach(function(element){
-			$(element).on("click", function () {
-
-				
-				var $element = $(element);
-				console.log($element.attr('id'));
-				var index = parseInt($element.attr('id').substring(6,7)) - 1;
-				console.log("Index to be deleted: " + index);
-
-				habits.splice(index,1);
-				printHabits();
-				addListeners();
-				return false;
-			});
-		});
-
-		$("main .content .fa-cog").toArray().forEach(function(element){
-			$(element).on("click", function () {
-
-				var $element = $(element);
-				console.log($element.attr('id'));
-				var index = parseInt($element.attr('id').substring(6,7)) - 1;
-				console.log("Index to be changed: " + index);
-
-				changeHabit(habits[index]);
-				return false;
-			});
-		});
-
-	}
-
-	
-
 	
 
 		
