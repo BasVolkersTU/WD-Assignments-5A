@@ -68,3 +68,16 @@ app.post("/updatehabit",function(req,res){
 
     res.json({"message":"You updated a habit on the server!"});
 })
+
+app.post("/deletehabit",function(req,res){
+    var jsonObject = req.body;
+    var deleteIndex = jsonObject['index'];
+
+    console.log("deleteIndex: " + deleteIndex)
+    console.log(habits);
+    habits.splice(deleteIndex,1);
+    console.log(habits);
+
+    var msg = "You deleted habit " + deleteIndex + " on the server!"
+    res.json({"message":msg});
+})

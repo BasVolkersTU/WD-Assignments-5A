@@ -219,6 +219,19 @@ var main = function(habitObjects){
 	   		 		this.daysFreq[date] = parseInt(this.daysFreq[date]) - 1;
 	   		 	}
 	   		 }
+	   		 this.equals(other){
+	   		 	if(this.getName() == other.getName() &&
+	   		 	   this.getTag() == other.getTag() &&
+	   		 	   this.getGood() == other.getGood() &&
+	   		 	   this.getFreq() == other.getFreq() )
+	   		 	{
+	   		 		console.log("checking for daysFreq")
+	   		 		return true;
+	   		 	}
+	   		 	else{
+	   		 		return false;
+	   		 	}
+	   		 }
 	   		
 		}
 	}
@@ -239,7 +252,7 @@ var main = function(habitObjects){
 
 	console.log(habitObjects);
 
-	var parseHabitJSON = function(habitObjects){
+	var initHabitJSON = function(habitObjects){
 		var newHabits = [];
 
 		for(var i = 0; i < habitObjects.length;i++){
@@ -255,6 +268,14 @@ var main = function(habitObjects){
 
 		return newHabits;
 	}
+
+	var updateHabitJSON = function(newHabitJSON){
+		
+		printHabits();
+		addListeners();
+	}
+
+	
 
 	var calculuteWeekPrec = function(habit){
 		var sum = 0
@@ -278,7 +299,7 @@ var main = function(habitObjects){
 		}
 	}
 
-	var habits = parseHabitJSON(habitObjects);
+	var habits = initHabitJSON(habitObjects);
 
 	var greenLowEnd = {'r':204,'g':255,'b':204};
 	var greenHighEnd = {'r':0,'g':255,'b':0};
@@ -455,6 +476,13 @@ var main = function(habitObjects){
 
 	var removeHabit = function(i){
 		habits.splice(i, 1);
+
+		var removeJSON = {'index':i};
+		console.log(removeJSON);
+
+		$.post("/deletehabit",removeJSON,function(result){
+			console.log(result);
+		});
 	}
 
 	var addListeners = function(){
@@ -600,6 +628,13 @@ var main = function(habitObjects){
 	printHabits();
 	addListeners();
 	console.log(habits);
+
+	setInterval(function () {
+		console.log("Fetching the habitlist from the server.");
+		$.getJSON("/../habits.json",function(newHabitJSON){
+			updateHabitJSON(newHabitJSON);
+		});
+	}, 20000);
 	
 
 		
