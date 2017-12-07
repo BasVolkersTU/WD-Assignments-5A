@@ -1,13 +1,17 @@
 /*colors:
-#29ABA4 blue/greenish
-#FCD0A1 brownish
+header: #29ABA4 blue
+textboxes: #9ca191 grey brown
+first body: #E9E0D6 light brown
+second body: #c0a78c darker brown
+footer: #354458;
+;
 
 
 */
 
 header{
 	height: auto;
-	background: #23908a;
+	background: #29ABA4;
 	padding-bottom: 0%;
 }
 
@@ -44,7 +48,7 @@ header img{
 
 body{
 	text-align: center;
-	background: #FCD0A1;
+	background: #E9E0D6;
 	font-size: 1.1em;
 	font-family: 'Ubuntu','Sans-serif';
 }
@@ -53,40 +57,91 @@ main .top{
 	display: inline-block;
 }
 main .top .description{
+	margin-top: 5em;
+	margin-left:2.5em;
+	margin-bottom: 4em;
+	border: 3px #8c8c8c solid;
+	border-radius: 5px;
+	background-color:  #9ca191;
 	float: left;
 	width: 27.5%;
-	padding-left: 4em;
-	padding-top:7em;
+	padding-left: 1em;
+	padding-top:1em;
+	padding-right: 1em;
+	padding-bottom: 1em;
 	font-size: 1.3em;
 }
 
 main .top .picture img{
 	width: 300px;
 	float:left ;
-	padding-top: 5em;
-	padding-left: 6em;
-	padding-right: 6em;
+	margin-bottom: 2em;
+	padding-top: 4.5em;
+	padding-left: 3.5em;
+	padding-right: 2em;
 }
 
 main .top .description1{
-	float: left;
+	margin-top: 5em;
+	margin-bottom: 3em;
+	margin-right: 3em;
+	margin-left: 1em;
+	border: 3px #8c8c8c solid;
+	background-color:  #9ca191;
+	border-radius: 5px;
+	float: right;
 	width: 25%;
-	padding-top: 8.5em;
-	padding-left: 1em
-	padding-right: 9em;
+	padding-left: 2em;
+	padding-top:2em;
+	padding-right: 2em;
+	padding-bottom: 2.5em;
 	font-size: 1.3em;
-	padding-bottom: 7em;
 }
 
 main .top .started button{
+	
 	padding: 15px 32px;
 	font-size: 1.5em;
-	background-color: #29ABA4;
+	background-color: #9ca191;
 	font-family: 'Lato','Sans-serif';
+	margin-left:1em;
+	margin-bottom: 1em;
 }
 
-main .socialmedia fa-twitter-square fa-2x{
-	background-color: #1dcaff;
+main .socialmedia{
+	margin-right: 2em;
+}
+
+main .features{
+	margin-top: 1em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	background-color: #c0a78c;
+}
+
+main .features .content1{
+	display: inline-block;
+	float: left;
+	width: 27.5%;
+	margin-left: 3em;
+}
+
+main .features .content2{
+	display: inline-block;
+	margin-right: 2em;
+	width: 27.5%;
+}
+
+main .features .content3{
+	
+	display: inline-block;
+	width: 27.5%;
+	margin-bottom: 2em;
+}
+
+main .features i{
+	font-size:8em;
+	margin:.25em;
 }
 
 footer .right ul{
@@ -95,8 +150,8 @@ footer .right ul{
 
 footer{
 	clear: left;
-	background: #6fdcd7;
-/*	color: #f2f2f2;*/
+	background:#354458;
+	color: #f2f2f2;
 	padding-bottom: 3%;
 }
 
