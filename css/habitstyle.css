@@ -19,6 +19,10 @@ background: #FCD0A1 lightbrown
 
 }
 
+.fa{
+	cursor: pointer;
+}
+
 body{
 	text-align: center;
 	background: #FCD0A1;
@@ -66,12 +70,11 @@ header img{
 main .dates ul{
 	list-style-type: none;
 	border-bottom: 1px solid black;
-	margin-right: 4.5em;
 }
 
 main .dates li{
 	display: inline-block;
-	width: 10%;
+	width: 7.8%;
 	margin-right: 0.8em;
 }
 
@@ -105,6 +108,12 @@ main .habit .info p{
 main .habit .info{
 	float: left;
 	width: 15%;
+}
+
+main .habit .percentage{
+	float: right;
+	margin-top: -4em;
+	margin-right: 6em;
 }
 
 main .habit .boxes{

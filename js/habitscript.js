@@ -99,29 +99,68 @@ var main = function(){
 			var month = date.toDateString().substring(4,7);
 			var weekDay = date.toDateString().substring(0,4);
 			var thisDate = day + " " + month;
-			week.push({
-				"weekDay":weekDay,
-				"date":thisDate
-			});
+			week.push(thisDate);
 			date = incrementDate(date);
 		}
 	}
 
 	var printWeek = function(){
+		console.log(week);
 		for(var i = 0;i <7;i++){
-			var divSelector =("main .dates div:nth-child(" + (i+3) + ")");
-			var $pDate = $(divSelector + " p:first-child");
-			$pDate.text(week[i]["date"]);
+			var elementSelector =("main .dates ul li:nth-child(" + (i+3) + ") p");
+			var $p = $(elementSelector);
 
-			var $pDay = $(divSelector + " p:nth-child(2)");
-			$pDay.text(week[i]["weekDay"]);
-			$pDay.text()
+
+		
+			$p.text(week[i]);
 		}
 	}
 
 
+	var moveLeft = function(){
+		datePointingTo = decrementDate(datePointingTo);
+		console.log("Pointer: " + datePointingTo);
+		setWeek(datePointingTo);
+		var dateToAdd = week[0];
+		habits.forEach(function(habit){
+			var daysFreq = habit.getDaysFreq();
+			if(!(dateToAdd in daysFreq)){
+				daysFreq[dateToAdd] = 0;	
+			}
+		});
+		printWeek();
+		printHabits();
+		addListeners();
+	}
+
+	var moveRight = function(){
+		datePointingTo = incrementDate(datePointingTo);
+		console.log("Pointer: " + datePointingTo);
+		setWeek(datePointingTo);
+		var dateToAdd = week[6];		
+		habits.forEach(function(habit){
+			var daysFreq = habit.getDaysFreq();
+			if(!(dateToAdd in daysFreq)){
+				daysFreq[dateToAdd] = 0;	
+			}
+		});
+		printWeek();
+		printHabits();
+		addListeners();
+	}
+
+	$("#right").on('click',function(){
+		moveRight();
+		return false;
+	});
+
+	$("#left").on('click',function(){
+		moveLeft();
+		return false;
+	});
 
 
+	
 
 
 
@@ -184,14 +223,17 @@ var main = function(){
 
 	var calculuteWeekPrec = function(habit){
 		var sum = 0
+		console.log(habit);
+
 		for(var l = 0;l < 7;l++){
-			var	date = week[l]["date"];
-			var ratio = habit.getDaysFreq()[date] / habit.getFreq();
-			console.log(ratio);
+			var	date = week[l];
+			var daysFreq = habit.getDaysFreq();
+			var freqToday = daysFreq[date];
+			var ratio = freqToday / habit.getFreq();
 			sum += ratio;
 		}
 		var percentage = sum / 7 * 100;
-		console.log(percentage);
+		percentage = Math.round(10*percentage) / 10;
 
 		if(habit.getGood()){
 			return percentage;
@@ -208,10 +250,13 @@ var main = function(){
 	var redLowEnd = {'r':255,'g':102,'b':102};
 	var redHighEnd = {'r':255,'g':0,'b':0};
 
-	var calculateColor = function(isGood,ratio){
-		console.log("Color: " + isGood);
-		console.log("ratio: " + ratio)
+	var calculateColor = function(habit,dayIndex){
 		var r,g,b;
+		var isGood = habit.getGood();
+		var	date = week[dayIndex];
+		var daysFreq = habit.getDaysFreq();
+		var freqToday = daysFreq[date];
+		var ratio = freqToday / habit.getFreq();
 		if(isGood){
 			g = 255;
 			r = Math.round(204-204 * ratio)
@@ -248,15 +293,28 @@ var main = function(){
 			var $ul = $("<ul>").addClass('boxes');
 
 			for(var j = 0; j <7;j++){
-				var $li = $("<li>").append($("<p>").text("0 / " + habit.getFreq()));
+				var $li = $("<li id='square" + j + "'>").append($("<p>").text(habit.getDaysFreq()[week[j]] + " / " + habit.getFreq()));
+				$li.addClass('square');
+				$li.css('background-color',calculateColor(habit,j));
+				var $addButton = $("<button class='update' id='addMark"+ j +"'>+</button>")
+				var $delButton = $("<button class='update' id='delMark"+ j +"'>-</button>")
+				$li.append($addButton);
+				$li.append($delButton);
 				$ul.append($li);
 			}
 
 			$div.append($ul);
 
+			console.log(habit);
+			var percentage = calculuteWeekPrec(habit);
+			var $percSpan = $("<span>").addClass('percentage');
+			$percSpan.append($("<p>").text(percentage + "%"));
+
+			$div.append($percSpan);
+
 			var $iconSpan = $("<span>").addClass('icons');
-			$iconSpan.append($("<i>").addClass('fa fa-trash'));
-			$iconSpan.append($("<i>").addClass('fa fa-cog'));
+			$iconSpan.append($("<i id='delete" + i + "'>").addClass('fa fa-trash clickable'));
+			$iconSpan.append($("<i id='change" + i + "'>").addClass('fa fa-cog clickable'));
 
 			$div.append($iconSpan);
 
@@ -268,109 +326,10 @@ var main = function(){
 		habits.push(habit);
 	}
 
-	var changeHabit = function(habit){
-		
-		console.log(habit);
-
-		var $div = $('<div>');
-		var $span1 = $('<span class="leftbox">')
-		var $span2 = $('<span class="rightbox">')
-		var $inputGood = $('<input type="radio" id="goodChangeHabit" name="days" value="true"/>')
-		var $inputBad = $('<input type="radio" id="badChangeHabit" name="days" value="false"/>');
-		$div.append('<p>Is it a good or bad habit?</p>')
-		if(habit.getGood()){
-			$inputGood.attr("checked","checked");
-		}
-		else{
-			$inputBad.attr("checked","checked");
-		}
-
-		$span1.append($inputGood);
-		$span1.append('<label for="goodChangeHabit">Good Habit</label>');
-		$div.append($span1);
-
-		$span2.append($inputBad);
-		$span2.append('<label for="badChangeHabit">Bad Habit</label>');
-		$div.append($span2);
-
-		
-		
-
-		var confirmChanges = function(){
-			console.log("confirmed changes");
-			habit.setName($("#changeNameInput").val());
-			habit.setTag($("#changeTagInput").val());
-			habit.setFreq($("#changeFreqInput").val());
-
-			var good = $('#goodChangeHabit:checked').val();
-			if(good){
-				habit.setGood(true);
-				console.log("setting habit to good");
-			}
-			else{
-				habit.setGood(false);
-				console.log("setting habit to bad");
-			}
-
-			$div.empty();
-			$inputBad.empty();
-			$inputGood.empty();
-			printHabits();
-			addListeners();	
-		}
-
-		$("#confirmChanges").on("click",function(){
-			confirmChanges();
-			return false;
-		});
-
-		$(document).keypress(function(e) {
-		    if(e.which == 13) {
-		        confirmChanges();
-		        $(document).off();
-				return false;
-		    }
-		});
-		
-	}
-
-	var moveLeft = function(){
-		datePointingTo = decrementDate(datePointingTo);
-		console.log("Pointer: " + datePointingTo);
-		setWeek(datePointingTo);
-		var dateToAdd = week[0]['date'];
-		habits.forEach(function(habit){
-			var daysFreq = habit.getDaysFreq();
-			if(!(dateToAdd in daysFreq)){
-				daysFreq[dateToAdd] = 0;	
-			}
-		});
-		printWeek();
-		printHabits();
-		addListeners();
-	}
-
-	var moveRight = function(){
-		datePointingTo = incrementDate(datePointingTo);
-		console.log("Pointer: " + datePointingTo);
-		setWeek(datePointingTo);
-		var dateToAdd = week[6]['date'];		
-		habits.forEach(function(habit){
-			var daysFreq = habit.getDaysFreq();
-			if(!(dateToAdd in daysFreq)){
-				daysFreq[dateToAdd] = 0;	
-			}
-		});
-		printWeek();
-		printHabits();
-		addListeners();
-		
+	var changeHabit = function(index,habit){
+		habits[index] = habit;
 	}
 	
-	addHabit(new Habit("name","tag",true,5,{}));
-	printHabits();
-	console.log(habits);
-
 	$("#plus").on('click',function(){
 		$("#addDialog").css('display','block');
 
@@ -390,8 +349,12 @@ var main = function(){
 			$("#freqInput").val("");
 			$("#goodInput").prop('checked',true);
 
+			var daysFreq = {};
+			for(var i = 0; i < 7;i++){
+				daysFreq[week[i]] = 0;
+			}
 
-			addHabit(new Habit(name,tag,good,freq,{}));
+			addHabit(new Habit(name,tag,good,freq,daysFreq));
 			console.log(habits);
 
 
@@ -399,9 +362,127 @@ var main = function(){
 
 			$("#addHabit").off();
 			printHabits();
+			addListeners();
 		});
 
 	});
+
+	var removeHabit = function(i){
+		habits.splice(i, 1);
+	}
+
+	var addListeners = function(){
+		$("main .content .fa-cog").toArray().forEach(function(element){
+ 			$(element).on("click", function () {
+ 
+ 				
+ 				var $element = $(element);
+ 				console.log($element.attr('id'));
+ 				var index  = $element.attr('id').substring(6,7);
+ 				console.log("Index to be changed: " + index);
+
+ 				$("#addDialog").css('display','block');
+ 				$("#addDialog h1").text("Change habit");
+
+ 				$('#nameInput').val(habits[index].getName());
+				$('#tagInput').val(habits[index].getTag());
+				$('#freqInput').val(habits[index].getFreq());
+
+				if(habits[index].getGood){
+					$("#goodInput").prop('checked',true);
+				}
+				else{
+					$("#badInput").prop('checked',true);
+				}
+
+				$("#addHabit").on('click',function(){
+					var name = $('#nameInput').val();
+					var tag = $('#tagInput').val();
+					var freq = $('#freqInput').val();
+					var good = $('input[name=choice]:checked').val();
+					if(good === 'true'){
+						good = true;
+					}
+					else {
+						good = false;
+					}
+					$("#addDialog h1").text("Add habit");
+					$("#nameInput").val("");
+					$("#tagInput").val("");
+					$("#freqInput").val("");
+					$("#goodInput").prop('checked',true);
+
+
+					changeHabit(index,new Habit(name,tag,good,freq,habits[index].getDaysFreq()));
+					console.log(habits);
+
+
+					$("#addDialog").css('display','none');
+
+					$("#addHabit").off();
+					printHabits();
+					addListeners();
+					return false;
+				});
+ 				
+ 			});
+ 		})
+
+
+		$("main .content .fa-trash").toArray().forEach(function(element){
+ 			$(element).on("click", function () {
+ 
+ 				
+ 				var $element = $(element);
+ 				console.log($element.attr('id'));
+ 				var index  = $element.attr('id').substring(6,7);
+ 				console.log("Index to be deleted: " + index);
+ 
+ 				removeHabit(index);
+ 				printHabits();
+ 				addListeners();
+ 				return false;
+ 			});
+ 		})
+
+ 		$("main .content .update").toArray().forEach(function(element){
+ 			$(element).on('click',function(){
+ 				$("main .content .square").css('color','red');
+
+ 				var $element = $(element)
+
+ 				var index = parseInt($element.parent().attr('id').substring(6,7));
+ 				var habitIndex = parseInt($element.parent().parent().parent().index());
+ 				var listSel = index + 3;
+ 				var $p = ($(".happy li:nth-child(" +(listSel)+") p"));
+ 				var date = $p.text();
+
+ 				console.log("added mark to " + date)
+
+ 				var id = ($element.attr('id'));
+ 				console.log(id);
+ 				if(id.substring(0,1) == 'a'){
+ 					habits[habitIndex].addMark(date);
+ 				}
+ 				else{
+					habits[habitIndex].delMark(date);	 					
+ 				}
+ 				printHabits();
+ 				addListeners();
+ 				return false;
+ 				
+
+ 			});
+ 		});
+		
+	}
+
+	setWeek(datePointingTo);
+	printWeek();
+
+	printHabits();
+	addListeners();
+	console.log(habits);
 	
 
 		
