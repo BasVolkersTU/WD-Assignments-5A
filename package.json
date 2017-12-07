@@ -1,0 +1,25 @@
+{
+  "name": "habittracker",
+  "version": "1.0.0",
+  "description": "This is a app for tracking your habits",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BasVolkersTU/WD-Assignments-1A.git"
+  },
+  "keywords": [
+    "habit"
+  ],
+  "author": "Cherwin Ort and Bas Volkers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BasVolkersTU/WD-Assignments-1A/issues"
+  },
+  "homepage": "https://github.com/BasVolkersTU/WD-Assignments-1A#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
