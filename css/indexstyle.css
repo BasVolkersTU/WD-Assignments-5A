@@ -1,125 +1,145 @@
-/* color palette
-#354458 darkblue
-#3A9AD9	lightblue
-#29ABA4	green
-#E9E0D6	very ligth brown
-#EB7260	orange
+/*colors:
+#29ABA4 blue/greenish
+#FCD0A1 brownish
 
 
 */
 
+header{
+	height: auto;
+	background: #23908a;
+	padding-bottom: 0%;
+}
+
+header div{
+	display: inline-block;
+}
+
+header .left{
+	float: left;
+	width:20%;
+}
+
+header .middle{
+	width: 58%;
+	font-family: 'Lato','Sans-serif';
+	font-size: 2em;
+}
+
+header .right{
+	width: 20%;
+}
+
+
+header .right button{
+	font-size: 1.2em;
+	margin: 1em;
+}
+header img{
+	width: 45%;
+	height: auto;
+	float: left;
+	margin: 1em;
+}
+
 body{
 	text-align: center;
-	background: #E9E0D6;
+	background: #FCD0A1;
+	font-size: 1.1em;
+	font-family: 'Ubuntu','Sans-serif';
 }
 
-i {
-	color:black;
+main .top{
+	display: inline-block;
 }
-
-#logobig{
-	height:20em;
-}
-
-/* color stuff */
-header{
-	background: #29ABA4;
-}
-
-footer{
-	color:#f2f2f2;
-}
-main .jumbotron{
-	background: #EB7260;
-	border-radius: 0px;
-}
-
-.black-button{
-	color:black;
-	background-color: #b3b3b3;
-}
-
-footer .container-fluid{
-	background: #354458;
-}
-
-header .row .col-sm-3 img{
+main .top .description{
 	float: left;
-	padding: 0px;
-	padding-top:0.5em;
-	height: 7em;
-}
-
-header .buttons{
-	margin-top: 1em;
-	float: right;
-	margin-left: 2em;
-}
-
-header button{
-	margin:1em;
-}
-
-header .row h1{
-	font-family: "Ubuntu";
-	font-size: 6em;
-
-}
-
-main .btn-primary{
-	margin-top:3em;
-	font-size: 1.5em;
-}
-
-main .col-sm-1{
-	position: relative;
-}
-.socialmedia{
-	float:right;
-	position: absolute;
-	bottom: 0px;
-	right: 0px;
-	margin-bottom: -3em;
-}
-
-.description{
-	margin: 3em;
+	width: 27.5%;
+	padding-left: 4em;
+	padding-top:7em;
 	font-size: 1.3em;
-
 }
 
-
-.features{
-	margin-bottom: 5em;
-	margin-top: 3em;
+main .top .picture img{
+	width: 300px;
+	float:left ;
+	padding-top: 5em;
+	padding-left: 6em;
+	padding-right: 6em;
 }
 
-.features i{
-	font-size:8em;
-	margin:.25em;
+main .top .description1{
+	float: left;
+	width: 25%;
+	padding-top: 8.5em;
+	padding-left: 1em
+	padding-right: 9em;
+	font-size: 1.3em;
+	padding-bottom: 7em;
 }
 
-footer .container-fluid{
-	background: #354458;
+main .top .started button{
+	padding: 15px 32px;
+	font-size: 1.5em;
+	background-color: #29ABA4;
+	font-family: 'Lato','Sans-serif';
 }
 
+main .socialmedia fa-twitter-square fa-2x{
+	background-color: #1dcaff;
+}
+
+footer .right ul{
+	list-style-type: none;
+}
 
 footer{
-	background: #E9ECEF
+	clear: left;
+	background: #6fdcd7;
+/*	color: #f2f2f2;*/
+	padding-bottom: 3%;
+}
+
+footer div{
+	display: inline-block;
+
 }
 
 footer .left{
-	margin-top: 0.3em;
-	text-align: left;
+	width:30%;
+	float: left;
+}
+
+footer .left .content{
+	float: left;
 }
 
 footer .middle{
+	width: 38%;
+}
+
+footer .middle button{
 	margin-top: 2em;
+	margin-left: 1em;
+	font-size: 1.2em;
 }
 
 footer .right{
-	margin-top: 2em;
+	width:30%;
+	float: right;
 }
-footer button{
-	margin: 1em
+
+footer .right .leftelement{
+	float: left;
+	width: 49%
+}
+
+
+footer .right .rightelement{
+	float: right;
+	width: 49%;
+}
+
+footer .right li{
+	padding-top: 0.8em;
 }
