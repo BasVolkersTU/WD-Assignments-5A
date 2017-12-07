@@ -1,5 +1,7 @@
-var main = function(){
+var main = function(habitObjects){
 	"use strict";
+
+
 
 	var week =[];
 	var datePointingTo = new Date();
@@ -209,16 +211,49 @@ var main = function(){
 	   		 }
 	   		 this.addMark = function(date){
 	   		 	if(this.daysFreq[date] < this.freq){
-	   		 		this.daysFreq[date] = this.daysFreq[date] + 1;
+	   		 		this.daysFreq[date] = parseInt(this.daysFreq[date]) + 1;
 	   		 	}
 	   		 }
 	   		 this.delMark = function(date){
 	   		 	if(this.daysFreq[date] > 0){
-	   		 		this.daysFreq[date] = this.daysFreq[date] - 1;
+	   		 		this.daysFreq[date] = parseInt(this.daysFreq[date]) - 1;
 	   		 	}
 	   		 }
 	   		
 		}
+	}
+
+	var updateDateFreq =  function(habitIndex,date){
+		var newFreq = habits[habitIndex].getDaysFreq()[date];
+		var updateInfo = {
+			'habitIndex':habitIndex,
+			'date':date,
+			'newFreq': newFreq
+		}
+		console.log(updateInfo);
+
+		$.post("/updatehabit",updateInfo,function(result){
+			console.log(result);
+		})
+	}
+
+	console.log(habitObjects);
+
+	var parseHabitJSON = function(habitObjects){
+		var newHabits = [];
+
+		for(var i = 0; i < habitObjects.length;i++){
+			var habitObject =habitObjects[i];
+			var name = habitObject['name'];
+			var tag = habitObject['tag'];
+			var freq = parseInt(habitObject['freq']);
+			var good = habitObject['good'];
+			var daysFreq = habitObject['daysFreq'];
+
+			newHabits.push(new Habit(name,tag,good,freq,daysFreq));
+		}
+
+		return newHabits;
 	}
 
 	var calculuteWeekPrec = function(habit){
@@ -243,7 +278,7 @@ var main = function(){
 		}
 	}
 
-	var habits = [];
+	var habits = parseHabitJSON(habitObjects);
 
 	var greenLowEnd = {'r':204,'g':255,'b':204};
 	var greenHighEnd = {'r':0,'g':255,'b':0};
@@ -293,7 +328,15 @@ var main = function(){
 			var $ul = $("<ul>").addClass('boxes');
 
 			for(var j = 0; j <7;j++){
-				var $li = $("<li id='square" + j + "'>").append($("<p>").text(habit.getDaysFreq()[week[j]] + " / " + habit.getFreq()));
+				var progress = -1;
+				if(week[j] in habit.getDaysFreq()){
+					
+				}
+				else{
+					habit.getDaysFreq()[week[j]] = 0;
+				}
+				progress = habit.getDaysFreq()[week[j]];
+				var $li = $("<li id='square" + j + "'>").append($("<p>").text(progress + " / " + habit.getFreq()));
 				$li.addClass('square');
 				$li.css('background-color',calculateColor(habit,j));
 				var $addButton = $("<button class='update' id='addMark"+ j +"'>+</button>")
@@ -308,7 +351,14 @@ var main = function(){
 			console.log(habit);
 			var percentage = calculuteWeekPrec(habit);
 			var $percSpan = $("<span>").addClass('percentage');
-			$percSpan.append($("<p>").text(percentage + "%"));
+			
+			var $idSpan = $("<span id='percentage" + i + "'>").text(percentage);
+			var $perSpan = $("<span>").text("%");
+
+			var theP = $("<p>").append($idSpan);
+			theP.append($perSpan);
+
+			$percSpan.append(theP);
 
 			$div.append($percSpan);
 
@@ -323,10 +373,45 @@ var main = function(){
 	}
 
 	var addHabit = function(habit){
+
+		var habitJSON = {
+			'name' : habit.getName(),
+			'tag' : habit.getTag(),
+			'good' : habit.getGood(),
+			'freq' : habit.getFreq(),
+			'daysFreq' : habit.getDaysFreq()
+		}
+
+	
+
+		$.post("/addhabit",habitJSON,function(result){
+			console.log(result);
+		});
+
 		habits.push(habit);
 	}
 
+	
+
 	var changeHabit = function(index,habit){
+		var habitJSON = {
+			'name' : habit.getName(),
+			'tag' : habit.getTag(),
+			'good' : habit.getGood(),
+			'freq' : habit.getFreq(),
+			'daysFreq' : habit.getDaysFreq()
+		}
+
+		var send = {
+			'habitJSON':habitJSON, "index" : index
+		}
+
+	
+
+		$.post("/changehabit",send,function(result){
+			console.log(result);
+		});
+
 		habits[index] = habit;
 	}
 	
@@ -354,6 +439,7 @@ var main = function(){
 				daysFreq[week[i]] = 0;
 			}
 
+			console.log(daysFreq);
 			addHabit(new Habit(name,tag,good,freq,daysFreq));
 			console.log(habits);
 
@@ -467,6 +553,7 @@ var main = function(){
  				else{
 					habits[habitIndex].delMark(date);	 					
  				}
+ 				updateDateFreq(habitIndex,date);
  				printHabits();
  				addListeners();
  				return false;
@@ -477,6 +564,36 @@ var main = function(){
 		
 	}
 
+	$("#sort").on('click',function(){
+		var Habitpercentages = [];
+		var percentages = [];
+		for(var i = 0; i < habits.length;i++){
+			var weekPrec = parseInt($("#percentage" + i).text());
+			console.log(weekPrec);
+			Habitpercentages.push(
+			{
+				weekPrec:i
+			});
+			percentages.push(calculuteWeekPrec(habits[i]));
+		}
+		percentages.sort(function(a,b){
+			return (b-a);
+		})
+
+		var newHabits = [];
+
+		for(var j = 0;j < percentages.length;j++){
+			var thisPercentage = percentages[j];
+
+			var index = Habitpercentages[thisPercentage];
+
+			newHabits.push(habits[i]);
+		}
+		
+		
+		console.log(newHabits);
+		habits = newHabits;
+	});
 	setWeek(datePointingTo);
 	printWeek();
 
@@ -488,4 +605,8 @@ var main = function(){
 		
 }
 
-$(document).ready(main);
+$(document).ready(function(){
+	$.getJSON("/../habits.json",function(habitObjects){
+		main(habitObjects);
+	});
+});
