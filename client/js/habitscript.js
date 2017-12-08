@@ -58,7 +58,6 @@ var main = function(habitObjects){
 		}
 
 		var newDateString = month + " " + day + " " + year;
-		//console.log("new date: " + newDateString);
 		date = new Date(newDateString);
 		return date;
 	}
@@ -77,7 +76,6 @@ var main = function(habitObjects){
 			var monthNum = 0;
 			if(date.getMonth() > 1){
 				monthNum = date.getMonth();
-				console.log("new monthNum: " + monthNum);
 			}
 			else{
 				monthNum = 12;
@@ -88,9 +86,9 @@ var main = function(habitObjects){
 			
 		}
 		var newDateString = month + " " + day + " " + year;
-		console.log("new date: " + newDateString);
+
 		date = new Date(newDateString);
-		console.log(date);
+
 		return date;
 	}
 
@@ -107,7 +105,6 @@ var main = function(habitObjects){
 	}
 
 	var printWeek = function(){
-		console.log(week);
 		for(var i = 0;i <7;i++){
 			var elementSelector =("main .dates ul li:nth-child(" + (i+3) + ") p");
 			var $p = $(elementSelector);
@@ -121,7 +118,6 @@ var main = function(habitObjects){
 
 	var moveLeft = function(){
 		datePointingTo = decrementDate(datePointingTo);
-		console.log("Pointer: " + datePointingTo);
 		setWeek(datePointingTo);
 		var dateToAdd = week[0];
 		habits.forEach(function(habit){
@@ -137,7 +133,6 @@ var main = function(habitObjects){
 
 	var moveRight = function(){
 		datePointingTo = incrementDate(datePointingTo);
-		console.log("Pointer: " + datePointingTo);
 		setWeek(datePointingTo);
 		var dateToAdd = week[6];		
 		habits.forEach(function(habit){
@@ -219,13 +214,12 @@ var main = function(habitObjects){
 	   		 		this.daysFreq[date] = parseInt(this.daysFreq[date]) - 1;
 	   		 	}
 	   		 }
-	   		 this.equals(other){
+	   		 this.equals = function(other){
 	   		 	if(this.getName() == other.getName() &&
 	   		 	   this.getTag() == other.getTag() &&
 	   		 	   this.getGood() == other.getGood() &&
 	   		 	   this.getFreq() == other.getFreq() )
 	   		 	{
-	   		 		console.log("checking for daysFreq")
 	   		 		return true;
 	   		 	}
 	   		 	else{
@@ -243,16 +237,14 @@ var main = function(habitObjects){
 			'date':date,
 			'newFreq': newFreq
 		}
-		console.log(updateInfo);
 
 		$.post("/updatehabit",updateInfo,function(result){
 			console.log(result);
 		})
 	}
 
-	console.log(habitObjects);
 
-	var initHabitJSON = function(habitObjects){
+	var parseHabitJSON = function(habitObjects){
 		var newHabits = [];
 
 		for(var i = 0; i < habitObjects.length;i++){
@@ -260,7 +252,7 @@ var main = function(habitObjects){
 			var name = habitObject['name'];
 			var tag = habitObject['tag'];
 			var freq = parseInt(habitObject['freq']);
-			var good = habitObject['good'];
+			var good = (habitObject['good'] == 'true');
 			var daysFreq = habitObject['daysFreq'];
 
 			newHabits.push(new Habit(name,tag,good,freq,daysFreq));
@@ -270,7 +262,11 @@ var main = function(habitObjects){
 	}
 
 	var updateHabitJSON = function(newHabitJSON){
-		
+
+		var newHabits = parseHabitJSON(newHabitJSON);
+
+		habits = newHabits;
+
 		printHabits();
 		addListeners();
 	}
@@ -299,7 +295,7 @@ var main = function(habitObjects){
 		}
 	}
 
-	var habits = initHabitJSON(habitObjects);
+	var habits = parseHabitJSON(habitObjects);
 
 	var greenLowEnd = {'r':204,'g':255,'b':204};
 	var greenHighEnd = {'r':0,'g':255,'b':0};
@@ -325,14 +321,12 @@ var main = function(habitObjects){
 		}
 
 		var rgb = "rgb(" + r + "," + g + "," + b +")";
-		console.log(rgb);
 		return rgb;
 	}
 
 	var printHabits = function(){
-		console.log(habits);
-		console.log("printing habits");
 		$("main .content").empty();
+		console.log(habits);
 
 		for(var i = 0; i < habits.length;i++){
 			var habit = habits[i];
@@ -369,7 +363,6 @@ var main = function(habitObjects){
 
 			$div.append($ul);
 
-			console.log(habit);
 			var percentage = calculuteWeekPrec(habit);
 			var $percSpan = $("<span>").addClass('percentage');
 			
@@ -459,10 +452,8 @@ var main = function(habitObjects){
 			for(var i = 0; i < 7;i++){
 				daysFreq[week[i]] = 0;
 			}
-
-			console.log(daysFreq);
+	
 			addHabit(new Habit(name,tag,good,freq,daysFreq));
-			console.log(habits);
 
 
 			$("#addDialog").css('display','none');
@@ -478,7 +469,6 @@ var main = function(habitObjects){
 		habits.splice(i, 1);
 
 		var removeJSON = {'index':i};
-		console.log(removeJSON);
 
 		$.post("/deletehabit",removeJSON,function(result){
 			console.log(result);
@@ -491,9 +481,7 @@ var main = function(habitObjects){
  
  				
  				var $element = $(element);
- 				console.log($element.attr('id'));
  				var index  = $element.attr('id').substring(6,7);
- 				console.log("Index to be changed: " + index);
 
  				$("#addDialog").css('display','block');
  				$("#addDialog h1").text("Change habit");
@@ -502,7 +490,7 @@ var main = function(habitObjects){
 				$('#tagInput').val(habits[index].getTag());
 				$('#freqInput').val(habits[index].getFreq());
 
-				if(habits[index].getGood){
+				if(habits[index].getGood()){
 					$("#goodInput").prop('checked',true);
 				}
 				else{
@@ -528,7 +516,6 @@ var main = function(habitObjects){
 
 
 					changeHabit(index,new Habit(name,tag,good,freq,habits[index].getDaysFreq()));
-					console.log(habits);
 
 
 					$("#addDialog").css('display','none');
@@ -548,9 +535,7 @@ var main = function(habitObjects){
  
  				
  				var $element = $(element);
- 				console.log($element.attr('id'));
  				var index  = $element.attr('id').substring(6,7);
- 				console.log("Index to be deleted: " + index);
  
  				removeHabit(index);
  				printHabits();
@@ -571,10 +556,8 @@ var main = function(habitObjects){
  				var $p = ($(".happy li:nth-child(" +(listSel)+") p"));
  				var date = $p.text();
 
- 				console.log("added mark to " + date)
 
  				var id = ($element.attr('id'));
- 				console.log(id);
  				if(id.substring(0,1) == 'a'){
  					habits[habitIndex].addMark(date);
  				}
@@ -597,12 +580,11 @@ var main = function(habitObjects){
 		var percentages = [];
 		for(var i = 0; i < habits.length;i++){
 			var weekPrec = parseInt($("#percentage" + i).text());
-			console.log(weekPrec);
 			Habitpercentages.push(
 			{
 				weekPrec:i
 			});
-			percentages.push(calculuteWeekPrec(habits[i]));
+			percentages.push(weekPrec);
 		}
 		percentages.sort(function(a,b){
 			return (b-a);
@@ -619,7 +601,6 @@ var main = function(habitObjects){
 		}
 		
 		
-		console.log(newHabits);
 		habits = newHabits;
 	});
 	setWeek(datePointingTo);
@@ -627,14 +608,12 @@ var main = function(habitObjects){
 
 	printHabits();
 	addListeners();
-	console.log(habits);
 
 	setInterval(function () {
-		console.log("Fetching the habitlist from the server.");
 		$.getJSON("/../habits.json",function(newHabitJSON){
 			updateHabitJSON(newHabitJSON);
 		});
-	}, 20000);
+	}, 2000);
 	
 
 		

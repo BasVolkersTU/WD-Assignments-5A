@@ -4,6 +4,7 @@ var express = require('express'),
 
 app = express();
 
+var modified = false;
 var port = 3000;
 
 habits = [{
@@ -22,7 +23,8 @@ app.use(express.static(__dirname + "/client"));
 app.use(express.urlencoded());
 
 app.get("/habits.json", function (req, res) {
-    res.json(habits);
+    var habitsJson = habits;
+    res.json(habitsJson);
 });
 
 app.post("/addhabit",function(req,res){
