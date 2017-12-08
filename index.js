@@ -1,6 +1,7 @@
 var express = require('express'),
     http = require('http'),
-    app;
+    bodyParser  = require('body-parser'),
+    app
 
 app = express();
 
@@ -15,12 +16,15 @@ habits = [{
     "daysFreq" :{}
 }]
 
-http.createServer(app).listen(3000);
+http.createServer(app).listen(process.env.PORT || port);
 
 app.use(express.static(__dirname + "/client"));
 // tell Express to parse incoming
 // JSON objects
-app.use(express.urlencoded());
+app.use(express.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
 
 app.get("/habits.json", function (req, res) {
     var habitsJson = habits;
