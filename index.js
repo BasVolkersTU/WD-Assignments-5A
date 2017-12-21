@@ -206,5 +206,55 @@ app.post("/deletehabit",function(req,res){
     res.json({"message":msg});
 })
 
+app.get("/getGoodHabitPercToday.json",function(req,res){
+    var date = new Date();
+    var today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    console.log(today);
+
+    var sql = "SELECT SUM(amount) AS total FROM frequency INNER JOIN habit ON (frequency_id = frequency.id) WHERE good='true'"
+
+    con.query(sql,function(err,result){
+        if(err) throw err;
+        var sql2  = "SELECT COUNT(*) AS done FROM habit_done JOIN habit ON(habit.id = habit_done.habit_id)\n" 
+        + "WHERE timestamp LIKE '" + today + "%' AND good = 'true'";
+
+        con.query(sql2,function(err2,result2){
+            if (err2) throw err2;
+            var done = parseInt(result2[0]['done']);
+            var total = parseInt(result[0]['total']);
+
+            var fraction = done / total;
+            var percentage = fraction * 100;
+            res.json({'percentage':percentage})
+        })
+    })
+
+})
+
+app.get("/getBadHabitPercToday.json",function(req,res){
+    var date = new Date();
+    var today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    console.log(today);
+
+    var sql = "SELECT SUM(amount) AS total FROM frequency INNER JOIN habit ON (frequency_id = frequency.id) WHERE good='false'"
+
+    con.query(sql,function(err,result){
+        if(err) throw err;
+        var sql2  = "SELECT COUNT(*) AS done FROM habit_done JOIN habit ON(habit.id = habit_done.habit_id)\n" 
+        + "WHERE timestamp LIKE '" + today + "%' AND good = 'false'";
+
+        con.query(sql2,function(err2,result2){
+            if (err2) throw err2;
+            var done = parseInt(result2[0]['done']);
+            var total = parseInt(result[0]['total']);
+
+            var fraction = done / total;
+            var percentage = fraction * 100;
+            res.json({'percentage':percentage})
+        })
+    })
+
+})
+
 
 
