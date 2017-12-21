@@ -1,0 +1,100 @@
+body{
+	text-align: center;
+	background: #E9E0D6;
+	font-size: 1.1em;
+	font-family: 'Ubuntu','Sans-serif';
+}
+
+
+header{
+	height: auto;
+	background: #29ABA4;
+	padding-bottom: 0%;
+}
+
+header div{
+	display: inline-block;
+}
+
+header .left{
+	float: left;
+	width:20%;
+}
+
+header .middle{
+	width: 58%;
+	font-family: 'Lato','Sans-serif';
+	font-size: 2em;
+}
+
+header .right{
+	width: 20%;
+}
+
+header .right button{
+	font-size: 1.2em;
+	margin: 1em;
+}
+header img{
+	width: 45%;
+	height: auto;
+	float: left;
+	margin: 1em;
+}
+
+
+
+footer .right ul{
+	list-style-type: none;
+}
+
+footer{
+	clear: left;
+	background: #354458;
+	color: #f2f2f2;
+	padding-bottom: 3%;
+}
+
+footer div{
+	display: inline-block;
+
+}
+
+footer .left{
+	width:30%;
+	float: left;
+}
+
+footer .left .content{
+	float: left;
+}
+
+footer .middle{
+	width: 38%;
+}
+
+footer .middle button{
+	margin-top: 2em;
+	margin-left: 1em;
+	font-size: 1.2em;
+}
+
+footer .right{
+	width:30%;
+	float: right;
+}
+
+footer .right .leftelement{
+	float: left;
+	width: 49%
+}
+
+
+footer .right .rightelement{
+	float: right;
+	width: 49%;
+}
+
+footer .right li{
+	padding-top: 0.8em;
+}
