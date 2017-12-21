@@ -13,6 +13,7 @@ header{
 	height: auto;
 	background: #29ABA4;
 	padding-bottom: 0%;
+	position: absolute;
 }
 
 header div{
@@ -52,9 +53,13 @@ body{
 	font-size: 1.1em;
 	font-family: 'Ubuntu','Sans-serif';
 }
-
+main{
+	position: relative;
+	padding-top: 7em;
+}
 main .top{
 	display: inline-block;
+
 }
 main .top .description{
 	margin-top: 5em;
@@ -108,9 +113,36 @@ main .top .started button{
 	margin-bottom: 1em;
 }
 
+main .top .started button:hover{
+	background-color: #e6e8e3;
+}
+
+main .top .started button:active{
+	background-color: #767c6a;
+}
+main .top .started button::after{
+	content: "!";
+}
 main .socialmedia{
 	margin-right: 2em;
 }
+main .top .started button:hover{
+  animation-duration: 1s;
+  animation-name: enlarge;
+  animation-fill-mode: forwards;
+}
+
+@keyframes enlarge {
+  from {
+   padding: 15px 32px; 
+  }
+
+  to {
+    padding: 50px 70px;
+  }
+}
+
+
 
 main .features{
 	margin-top: 1em;
@@ -118,6 +150,7 @@ main .features{
 	padding-bottom: 1em;
 	background-color: #c0a78c;
 }
+
 
 main .features .content1{
 	display: inline-block;
@@ -144,6 +177,7 @@ main .features i{
 	margin:.25em;
 }
 
+
 footer .right ul{
 	list-style-type: none;
 }
@@ -168,6 +202,7 @@ footer .left{
 footer .left .content{
 	float: left;
 }
+
 
 footer .middle{
 	width: 38%;
