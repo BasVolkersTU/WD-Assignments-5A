@@ -96,9 +96,14 @@ var main = function(habitObjects){
 		week = [];
 		for(var i = 0; i <7;i++){
 			var day = parseInt(date.toDateString().substring(8,10))
-			var month = date.toDateString().substring(4,7);
+			var dayString = day;
+			if(day < 10){
+				dayString = "0" + dayString;
+			}
+			var month = date.getMonth()+1;
 			var weekDay = date.toDateString().substring(0,4);
-			var thisDate = day + " " + month;
+			var year = date.getFullYear();
+			var thisDate = year + "-" + month + "-" + dayString;
 			week.push(thisDate);
 			date = incrementDate(date);
 		}
@@ -230,7 +235,7 @@ var main = function(habitObjects){
 		}
 	}
 
-	var updateDateFreq =  function(habitIndex,date){
+	var updateDateFreq =  function(habitIndex,date,add){
 		var newFreq = habits[habitIndex].getDaysFreq()[date];
 		var updateInfo = {
 			'habitIndex':habitIndex,
@@ -238,10 +243,18 @@ var main = function(habitObjects){
 			'newFreq': newFreq
 		}
 
+		if(add){
+			updateInfo['add'] = true;
+		}
+		else{
+			updateInfo['add'] = false;
+		}
+
 		$.post("/updatehabit",updateInfo,function(result){
 			console.log(result);
 		})
 	}
+
 
 
 	var parseHabitJSON = function(habitObjects){
@@ -450,7 +463,8 @@ var main = function(habitObjects){
 
 			var daysFreq = {};
 			for(var i = 0; i < 7;i++){
-				daysFreq[week[i]] = 0;
+				var thisDate = week[i];
+				daysFreq[thisDate] = 0;
 			}
 	
 			addHabit(new Habit(name,tag,good,freq,daysFreq));
@@ -559,12 +573,18 @@ var main = function(habitObjects){
 
  				var id = ($element.attr('id'));
  				if(id.substring(0,1) == 'a'){
- 					habits[habitIndex].addMark(date);
+					 if(habits[habitIndex].getDaysFreq()[date] < habits[habitIndex].getFreq()){
+						habits[habitIndex].addMark(date);
+						updateDateFreq(habitIndex,date,true);
+	   		 		}
+ 					
  				}
  				else{
-					habits[habitIndex].delMark(date);	 					
+					if(habits[habitIndex].getDaysFreq()[date] > 0 ){
+						habits[habitIndex].delMark(date);
+						updateDateFreq(habitIndex,date,false);
+	   		 		}
  				}
- 				updateDateFreq(habitIndex,date);
  				printHabits();
  				addListeners();
  				return false;
@@ -609,11 +629,11 @@ var main = function(habitObjects){
 	printHabits();
 	addListeners();
 
-	setInterval(function () {
+	/*setInterval(function () {
 		$.getJSON("/../habits.json",function(newHabitJSON){
 			updateHabitJSON(newHabitJSON);
 		});
-	}, 2000);
+	}, 2000);*/
 	
 
 		

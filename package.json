@@ -20,9 +20,10 @@
   },
   "homepage": "https://github.com/BasVolkersTU/WD-Assignments-1A#readme",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "mysql": "^2.15.0"
   },
-  "engines" : { 
-    "node" : "8.9.1" 
+  "engines": {
+    "node": "8.9.1"
   }
 }
