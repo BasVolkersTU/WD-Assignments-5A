@@ -309,5 +309,96 @@ app.get("/getBadHabitPercToday.json",function(req,res){
 
 })
 
+app.get("/amountDoneTodaySameTag.json",function(req,res){
+    var date = new Date();
+    var today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate()-1);
+    console.log(today);
+
+    var sql="SELECT COUNT(*) AS size FROM habit_list";
+    con.query(sql,function(err,result){
+        if(err) throw err;
+        console.log(result);
+
+        var sql2 = "SELECT habit_list.id,habit_list.name,habit.title,SUM(amount) as total FROM habit_list\n"+ 
+        "INNER JOIN habit ON(habit_list.id = habit.habit_list_id)\n"+
+        "INNER JOIN frequency ON(frequency_id = frequency.id)\n"+
+        "GROUP BY(name) ORDER BY(id)\n;"
+
+        con.query(sql2,function(err2,result2){
+            if(err2) throw err2;
+
+            var sql3 = "SELECT habit_list.id,habit_list.name AS tag, COUNT(habit_id) AS timesToday FROM habit_done\n"+
+            "INNER JOIN habit ON (habit_id = habit.id)\n"+
+            "INNER JOIN habit_list ON(habit_list_id = habit_list.id)\n"+
+            "WHERE timestamp LIKE ('2017-12-21%') GROUP BY (habit_list_id)\n;";
+
+            con.query(sql3,function(err3,result3){
+                if(err3) throw err3;
+
+                var returnJSON = []
+
+                for(var i =0; i <result3.length;i++){
+                    for(var k = 0; k < result2.length;k++){
+                        if(result3[i]['id'] === result2[k]['id']){
+                            //same id
+                            var total = result2[k]['total'];
+                            var timesToday = result3[i]['timesToday'];
+                            var tag = result3[i]['tag'];
+                            var object = {
+                                'tag':tag,
+                                'total':total,
+                                'timesToday':timesToday
+                            }
+                            returnJSON.push(object);
+                        }
+                    }
+                }
+
+                console.log(returnJSON);
+                res.json(returnJSON);
+            })
+        })
+
+
+
+    })
+
+})
+
+app.get("/top5GoodHabits.json",function(req,res){
+    var sql = "SELECT title,COUNT(timestamp) AS amount FROM habit\n"+
+    "FULL JOIN habit_done ON(id = habit_done.habit_id)\n"+
+    "WHERE good='true' GROUP BY(title) ORDER BY amount DESC LIMIT 5;\n"
+
+    con.query(sql,function(err,result){
+        var titles = [];
+
+        for(var i  = 0; i < result.length;i++){
+            titles.push(result[i]['title']);
+        }
+
+        console.log(titles);
+        res.json(titles);
+    })
+})
+
+app.get("/top5BadHabits.json",function(req,res){
+    var sql = "SELECT title,COUNT(timestamp) AS amount FROM habit\n"+
+    "FULL JOIN habit_done ON(id = habit_done.habit_id)\n"+
+    "WHERE good='false' GROUP BY(title) ORDER BY amount ASC LIMIT 5;\n"
+
+    con.query(sql,function(err,result){
+        var titles = [];
+
+        for(var i  = 0; i < result.length;i++){
+            titles.push(result[i]['title']);
+        }
+
+        console.log(titles);
+        res.json(titles);
+    })
+})
+
+
 
 
