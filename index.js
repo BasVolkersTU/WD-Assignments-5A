@@ -127,7 +127,7 @@ app.post("/addhabit",function(req,res){
                  var isIn = false;
                  var inIndex = 0;
                 for(var i =0; i < result2.length;i++){
-                    if (result2[i]['name'] === newTag){
+                    if (result2[i]['name'] === tag){
                         isIn = true;
                         inIndex = i;
                     }
@@ -144,7 +144,7 @@ app.post("/addhabit",function(req,res){
                      });
                 }
                 else if(isIn){
-                     console.log(newTag + " is in");
+                     console.log(tag + " is in");
                      console.log("aaaaaa")
                      habit_list_id = inIndex + 1;
                   
@@ -157,7 +157,7 @@ app.post("/addhabit",function(req,res){
                      });                   
                 }
                 else{
-                    console.log(newTag + " is not in");
+                    console.log(tag + " is not in");
                     console.log("bbbbbbbb");
                     con.query("SELECT COUNT(*) AS size FROM habit_list",function(err3,result3){
                         if(err3) throw err3;
@@ -348,7 +348,7 @@ app.get("/getBadHabitPercToday.json",function(req,res){
 
 app.get("/amountDoneTodaySameTag.json",function(req,res){
     var date = new Date();
-    var today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate()-1);
+    var today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate());
     console.log(today);
 
     var sql="SELECT COUNT(*) AS size FROM habit_list";
@@ -367,7 +367,7 @@ app.get("/amountDoneTodaySameTag.json",function(req,res){
             var sql3 = "SELECT habit_list.id,habit_list.name AS tag, COUNT(habit_id) AS timesToday FROM habit_done\n"+
             "INNER JOIN habit ON (habit_id = habit.id)\n"+
             "INNER JOIN habit_list ON(habit_list_id = habit_list.id)\n"+
-            "WHERE timestamp LIKE ('2017-12-21%') GROUP BY (habit_list_id)\n;";
+            "WHERE timestamp LIKE ('" + today + "%') GROUP BY (habit_list_id)\n;";
 
             con.query(sql3,function(err3,result3){
                 if(err3) throw err3;
