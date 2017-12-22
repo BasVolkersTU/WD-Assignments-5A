@@ -30,6 +30,9 @@ body{
 	font-family: 'Ubuntu','Sans-serif';
 }
 
+.date{
+	padding-right: 1.6em;
+}
 
 header{
 	height: auto;
@@ -90,7 +93,7 @@ main .dates ul{
 main .dates li{
 	display: inline-block;
 	width: 7.8%;
-	margin-right: 0.8em;
+	margin-right: 0.9em;
 }
 
 main .dates #plus{

@@ -277,7 +277,7 @@ app.post("/updatehabit",function(req,res){
 
 })
 
-
+/*
 //TODO: fix this
 app.post("/deletehabit",function(req,res){
     var jsonObject = req.body;
@@ -294,7 +294,7 @@ app.post("/deletehabit",function(req,res){
 
     var msg = "You deleted habit " + deleteIndex + " on the server!"
     res.json({"message":msg});
-})
+})*/
 
 app.get("/getGoodHabitPercToday.json",function(req,res){
     var date = new Date();
