@@ -13,6 +13,9 @@ header .left{
 	width:20%;
 }
 
+header .habittracker button{
+	}
+
 header .middle{
 	width: 58%;
 	font-family: 'Lato','Sans-serif';
@@ -46,8 +49,27 @@ main .today{
 	display: inline-block;
 }
 
+main .today h2{
+	margin-right: 10em;
+}
+main .today button{
+	background-color: #c0a78c;
+	border: 3px #8c8c8c solid;
+	border-radius: 5px;
+	float:left;
+	width:15%;
+	margin-top: 0.8em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	font-size: 1.2em;
+}
+
+main .today button:hover{
+	background-color: #ede6de;
+}
+
 main .today .first{
-	margin-top: 1em;
+	margin-top: 1.5em;
 	margin-left:3em;
 	margin-bottom: 2em;
 	border: 3px #8c8c8c solid;
@@ -67,7 +89,7 @@ main .today .first p{
 }
 
 main .today .second{
-	margin-top: 1em;
+	margin-top: 1.5em;
 	margin-left:3em;
 	margin-bottom: 2em;
 	border: 3px #8c8c8c solid;
@@ -87,7 +109,7 @@ main .today .second p{
 }
 
 main .today .third{
-	margin-top: 1em;
+	margin-top: 1.5em;
 	margin-left:3em;
 	margin-bottom: 2em;
 	border: 3px #8c8c8c solid;
