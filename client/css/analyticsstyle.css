@@ -13,8 +13,6 @@ header .left{
 	width:20%;
 }
 
-header .habittracker button{
-	}
 
 header .middle{
 	width: 58%;
@@ -61,7 +59,7 @@ main .today button{
 	margin-top: 0.8em;
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
-	font-size: 1.2em;
+	font-size: 1em;
 }
 
 main .today button:hover{
@@ -122,6 +120,11 @@ main .today .third{
 	padding-right: 1em;
 	padding-bottom: 0.7em;
 	font-size: 1.2em;
+	
+}
+
+main .today .third li{
+	list-style-type: none;
 }
 
 main .overall .fourth{
@@ -138,6 +141,11 @@ main .overall .fourth{
 	padding-right: 1em;
 	padding-bottom: 1em;
 	font-size: 1.2em;
+	list-style-type: none;
+}
+
+main .overall .fourth li{
+	list-style-type: none;
 }
 
 main .overall .fifth{
@@ -154,6 +162,11 @@ main .overall .fifth{
 	padding-right: 1em;
 	padding-bottom: 1em;
 	font-size: 1.2em;
+	list-style-type: none;
+}
+
+main .overall .fifth li{
+	list-style-type: none;
 }
 
 main .overall{
