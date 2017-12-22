@@ -151,15 +151,68 @@ app.post("/addhabit",function(req,res){
 });
 
 app.post("/changehabit",function(req,res){
-    var newHabit = req.body;
+     var habitInfo = req.body;
+    var newHabit = habitInfo['habitJSON'];
 
+    var habit_id = parseInt(habitInfo['index']) + 1;
+    console.log("----CHANGE--INFO-----")
     console.log(newHabit);
-    
-    habits[newHabit['index']] = (newHabit['habitJSON']);
-    console.log(habits);
+    var newTitle = newHabit['name'];
+    var newGood = newHabit['good'];
+    var newTag = newHabit['tag'];
 
-    // send back a simple object
-    res.json({"message":"You changed a habit on the server!"});
+    var newFreq = parseInt(newHabit['freq']);
+
+    con.query("SELECT frequency_id FROM habit WHERE habit.id = " + habit_id,function(err,result){
+        if (err) throw err;
+
+        console.log(result);
+        con.query("UPDATE frequency SET amount = " + newFreq + " WHERE id = " + result[0]['frequency_id']);
+        console.log("UPDATE frequency SET amount = " + newFreq + " WHERE id = " + result[0]['frequency_id']);
+
+        if(newTag === ''){
+            con.query("UPDATE habit SET habit_list_id = NULLL, title = '" + newTitle + "', good = '" + newGood + "' WHERE habit.id =" + habit_id);
+            console.log("UPDATE habit SET habit_list_id = NULL,title = '" + newTitle + "', good = '" + newGood + "' WHERE habit.id =" + habit_id);
+        }
+        else{
+            con.query("SELECT name FROM habit_list",function(err2,result2){
+                if(err2) throw err2
+
+                 var isIn = false;
+                 var inIndex = 0;
+                for(var i =0; i < result2.length;i++){
+                    if (result2[i]['name'] === newTag){
+                        isIn = true;
+                        inIndex = i;
+                    }
+                }
+
+                if(isIn){
+                    console.log(newTag + " is in");
+                    var habit_list_id = inIndex + 1;
+
+                    con.query("UPDATE habit SET habit_list_id = " + habit_list_id + ", title = '" + newTitle + "', good = '" + newGood + "' WHERE habit.id =" + habit_id);
+                        console.log("UPDATE habit SET habit_list_id = " + habit_list_id + ", title = '" + newTitle + "', good = '" + newGood + "' WHERE habit.id =" + habit_id);
+                }
+                else{
+                    console.log(newTag + " is not in");
+                    con.query("SELECT COUNT(*) AS size FROM habit_list",function(err3,result3){
+                        if(err3) throw err3;
+                        var habit_list_id = parseInt(result3[0]['size']) + 1
+                        con.query("INSERT INTO habit_list(id,name,creationDate,owner,isPublic)\n" +
+                        "VALUES(" + habit_list_id + ",'" + newTag + "',NULL,1,0);");
+
+                        con.query("UPDATE habit SET habit_list_id = " + habit_list_id + ", title = '" + newTitle + "', good = '" + newGood + "' WHERE habit.id =" + habit_id);
+                        console.log("UPDATE habit SET habit_list_id = " + habit_list_id + ", title = '" + newTitle + "', good = '" + newGood + "' WHERE habit.id =" + habit_id);
+
+                    })
+                }
+
+
+                
+            })
+        }
+    })
 });
 
 app.post("/updatehabit",function(req,res){
