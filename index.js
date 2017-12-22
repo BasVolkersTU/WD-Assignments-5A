@@ -117,37 +117,74 @@ app.post("/addhabit",function(req,res){
     var isPublic = 1;
     var tag = newHabit['tag'];
     
-    console.log(newHabit);
-    con.query("SELECT COUNT(*) AS size FROM habit_list",function(err2,result){
-        if(err2) throw err2;
-        console.log(result);
-        var habitListSize = result[0]['size'];
-        var habit_list_id = habitListSize + 1;
+     con.query("SELECT name FROM habit_list",function(err2,result2){
+                if(err2) throw err2
 
-        console.log(habit_list_id);
+                con.query("INSERT INTO frequency(id,amount) VALUES(" + newID + "," + amount + ");\n",function(err,result){
+                    if(err) throw err;
+                });
 
-        var insertFreq = "INSERT INTO frequency(id,amount) VALUES(" + newID + "," + amount + ");\n"
-        var insertHabit = "INSERT INTO habit(id,title,description,creationDate,habit_list_id,frequency_id,part_of_week_id,good)\n" 
-        + "VALUES(" + newID + ",'" + name + "'," + description + "," 
-        + creationDate + "," + habit_list_id + "," + newID + "," + part_of_week_id + ",'" + good + "');\n";
-        var insertHabitList = "INSERT INTO habit_list(id,name,creationDate,owner,isPublic)\n"
-        + "VALUES(" + habit_list_id +",'" + tag + "'," + creationDate + "," + owner + "," + isPublic + ");\n";
+                 var isIn = false;
+                 var inIndex = 0;
+                for(var i =0; i < result2.length;i++){
+                    if (result2[i]['name'] === newTag){
+                        isIn = true;
+                        inIndex = i;
+                    }
+                }
+                if(tag === ''){
+                    console.log(" tag is empty");
+                    var insertHabit = "INSERT INTO habit(id,title,description,creationDate,habit_list_id,frequency_id,part_of_week_id,good)\n" 
+                    + "VALUES(" + newID + ",'" + name + "'," + description + "," 
+                    + creationDate + "," + habit_list_id + "," + newID + "," + part_of_week_id + ",'" + good + "');\n";
 
+                    con.query(insertHabit,function(err,result)
+                    {
+                        if(err) throw err;
+                     });
+                }
+                else if(isIn){
+                     console.log(newTag + " is in");
+                     console.log("aaaaaa")
+                     habit_list_id = inIndex + 1;
+                  
+                    var insertHabit = "INSERT INTO habit(id,title,description,creationDate,habit_list_id,frequency_id,part_of_week_id,good)\n" 
+                    + "VALUES(" + newID + ",'" + name + "'," + description + "," 
+                    + creationDate + "," + habit_list_id + "," + newID + "," + part_of_week_id + ",'" + good + "');\n"; 
 
-        con.query(insertFreq,function(err,result){
-            if(err) throw err;
-        });
-        con.query(insertHabit,function(err,result){
-            if(err) throw err;
-        });
-        con.query(insertHabitList,function(err,result){
-            if(err) throw err;
-        });
-    })
-    
+                    con.query(insertHabit,function(err,result){
+                        if(err) throw err;
+                     });                   
+                }
+                else{
+                    console.log(newTag + " is not in");
+                    console.log("bbbbbbbb");
+                    con.query("SELECT COUNT(*) AS size FROM habit_list",function(err3,result3){
+                        if(err3) throw err3;
+                        var habit_list_id = parseInt(result3[0]['size']) + 1
+                                        
+                        var insertHabit = "INSERT INTO habit(id,title,description,creationDate,habit_list_id,frequency_id,part_of_week_id,good)\n" 
+                        + "VALUES(" + newID + ",'" + name + "'," + description + "," 
+                        + creationDate + "," + habit_list_id + "," + newID + "," + part_of_week_id + ",'" + good + "');\n";
+                        var insertHabitList = "INSERT INTO habit_list(id,name,creationDate,owner,isPublic)\n"
+                        + "VALUES(" + habit_list_id +",'" + tag + "'," + creationDate + "," + owner + "," + isPublic + ");\n";
+                        
+                        con.query(insertHabit,function(err,result){
+                            if(err) throw err;
+                        });
+                        con.query(insertHabitList,function(err,result){
+                            if(err) throw err;
+                        }); 
+                    })
+                }
+
+                habitSize++;
+                res.json({"message":"You added a habit to the server!"});
+                
+     })
 
     // send back a simple object
-    res.json({"message":"You added a habit to the server!"});
+    
 });
 
 app.post("/changehabit",function(req,res){
