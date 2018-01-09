@@ -1,3 +1,4 @@
+
 var express = require('express'),
     http = require('http'),
     bodyParser  = require('body-parser'),
@@ -7,11 +8,22 @@ var express = require('express'),
     database = require('./database.js');
 
 var app = configuration.app;
-app.set('views',__dirname + "/views");
-app.set("view engine",'ejs');
+
 
 var con = database.con;
 database.connect();
+
+//------------------ EJS -------------------------
+app.set('views',__dirname + "\\views");
+app.set("view engine",'ejs');
+
+
+
+app.get("/newhabittracker",function(req,res){
+    database.renderHabits(req,res);
+})
+
+//-------------------------------------------------
 
 //analytics page
 database.getTop5GoodHabits();

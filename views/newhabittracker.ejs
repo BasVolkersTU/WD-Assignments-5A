@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Habit tracker</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato|Ubuntu" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/habitstyle.css" type="text/css">
+</head>
+
+<body>
+	<header>
+				<div class="left">
+					<a href="../index.html">
+						<img src="../res/logosmall.png" id="logosmall">
+					</a>
+				</div>
+
+				<div class="middle">
+					<h1>Hackbit</h1>
+				</div>
+
+				<div class="right">
+					<div class="button">
+						<a href = "analytics.html">
+							<button type="button" class="btn btn-primary">Analytics</button>
+						</a>
+					</div>		
+					<div class="buttons">
+					<button type="button">Sign up</button>
+					<button type="button">Log in</button>
+					</div>
+				</div>
+				
+	</header>
+	<main>
+
+
+			<div class="dates">
+
+				<ul class="happy">
+					<li><i id="plus" class="fa fa-plus-circle"></i></li>
+					<li><i id="left" class="fa fa-mail-reply"></i></li>
+					<li class="date"><p><%= dates[0]%></p></li>
+					<li class="date"><p><%= dates[1]%></p></li>
+					<li class="date"><p><%= dates[2]%></p></li>
+					<li class="date"><p><%= dates[3]%></p></li>
+					<li class="date"><p><%= dates[4]%></p></li>
+					<li class="date"><p><%= dates[5]%></p></li>
+					<li class="date"><p><%= dates[6]%></p></li>
+					<li><i id="right" class="fa fa-mail-forward"></i></li>
+				</ul>
+			</div>
+
+			<div class="content">
+
+                <% habits.forEach(function(habit){%>
+				<div class="habit">
+					<span class="info">
+						<p><%= habit.tag%></p>
+						<p><%= habit.name %></p>
+					</span>
+
+						<ul class="boxes">
+                            <li class="square" style="background:<%=habit.colors[0]%>">
+                                <p><%= habit.daysFreq[dates[0]] %>/<%=habit.freq%></p>
+                                <button class="update">+</button>
+                                <button class="update">-</button>
+                            </li>
+                            <li class="square" style="background:<%=habit.colors[1]%>"><p><%= habit.daysFreq[dates[1]] %>/<%=habit.freq%></p>
+                                <button class="update">+</button>
+                                <button class="update">-</button>
+                            </li>
+                            <li class="square" style="background:<%=habit.colors[2]%>"><p><%= habit.daysFreq[dates[2]] %>/<%=habit.freq%></p>
+                                <button class="update">+</button>
+                                <button class="update">-</button>
+                            </li>
+                            <li class="square" style="background:<%=habit.colors[3]%>"><p><%= habit.daysFreq[dates[3]] %>/<%=habit.freq%></p>
+                                <button class="update">+</button>
+                                <button class="update">-</button>
+                            </li>
+                            <li class="square" style="background:<%=habit.colors[4]%>"><p><%= habit.daysFreq[dates[4]] %>/<%=habit.freq%></p>
+                                <button class="update">+</button>
+                                <button class="update">-</button>
+                            </li>
+                            <li class="square" style="background:<%=habit.colors[5]%>"><p><%= habit.daysFreq[dates[5]] %>/<%=habit.freq%></p>
+                                <button class="update">+</button>
+                                <button class="update">-</button>
+                            </li>
+                            <li class="square" style="background:<%=habit.colors[6]%>"><p><%= habit.daysFreq[dates[6]] %>/<%=habit.freq%></p>
+                                <button class="update">+</button>
+                                <button class="update">-</button>
+                            </li>
+						</ul>
+
+						<span class="percentage">
+						<p><%= habit.percentage%>%</p>
+					</span>
+
+					<span class="icons">
+						<i class="fa fa-trash"></i>
+						<i class="fa fa-cog"></i>
+					</span>
+				</div>
+                <%})%>
+                
+				<div id="addDialog">
+					<h1>Add habit</h1>
+					<p>Name:</p><input type="text" name="name" id="nameInput"/>
+					<p>Tag:</p><input type="text" name="tag" id="tagInput"/>
+					<p>Frequency:</p><input type="text" name="freq" id="freqInput"/>
+					<p>Good or bad?</p>
+					<input type="radio" name="choice" id="goodInput" checked="checked" value="true"/>
+					<label for="goodInput">Good</label>
+					<input type="radio" name="choice" id="badInput" value="false";/>
+					<label for="goodInput">Bad</label>
+					<button id = "addHabit" type="button">Submit</button>
+						
+				</div>	
+					
+		
+	</main>
+	<footer>
+		<div class="left">
+			<div class="content">
+				<p>Made by:</p>
+				<ul>
+					<li>Cherwin Ort</li>
+					<li>Bas Volkers</li>
+				</ul>	
+			</div>
+		</div>
+
+		<div class="middle">
+				<button type="button">Sign up</button>
+				<button type="button">Log in</button>
+		</div>
+
+		<div class = "right">
+			<ul>
+				<li class="leftelement">About</li>
+				<li class="rightelement">FAQ</li>
+				<li class="leftelement">Contact</li>
+				<li class="rightelement">Support</li>
+			</ul>
+		</div>
+
+
+	</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--<script src="../js/habitscript.js"></script>-->
+
+
+</body>
+</html>

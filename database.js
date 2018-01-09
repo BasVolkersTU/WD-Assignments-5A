@@ -1,5 +1,6 @@
-var configuration = require('./configuration'),
-    mysql = require('mysql')
+var configuration = require('./configuration.js'),
+    mysql = require('mysql'),
+    habitfunctions = require('./habitfunctions.js');
 var app = configuration.app;
 
 var con = mysql.createConnection({
@@ -197,14 +198,14 @@ module.exports.getAmountDoneTodaySameTag = function(){
     })
 }
 
-app.get("/habits.json", function (req, res) {
-
+module.exports.renderHabits = function(req,res){
     var habitsJSON = [];
     var sql= "SELECT habit.id AS id, habit.title AS name,habit_list.name AS tag,habit.good AS good, frequency.amount,SUBSTRING(timestamp,1,10) AS date FROM habit\n"
     +"LEFT JOIN habit_list ON (habit_list.id=habit.habit_list_id)\n"
     +"INNER JOIN frequency ON (habit.frequency_id = frequency.id)\n"
     +"LEFT JOIN habit_done ON (habit_done.habit_id=habit.id)\n"
     +"ORDER BY(habit.id)\n";
+    con.query("USE habits;")
     con.query(sql,function(err,habitResult){
         if(err) throw err;
         //console.log(habitResult);
@@ -251,15 +252,49 @@ app.get("/habits.json", function (req, res) {
                 }   
             }
         }
-        console.log(habitsJSON);
-        res.json(habitsJSON);
-    });
+        var dates = habitfunctions.setWeek(new Date());
 
-   
-});
+        habitsJSON.forEach(function(habit){
+            dates.forEach(function(date){
+                var isIn = false;
+                Object.keys(habit.daysFreq).forEach(function(element){
+                    if(element == date){
+                        isIn = true;
+                    }
+                })
+                if(!isIn){
+                    habit.daysFreq[date] = 0;
+                }
+            })
+        })
+
+        for(var i =0; i < habitsJSON.length ; i++){
+            habitsJSON[i]['percentage'] = habitfunctions.calculateWeekPrec(habitsJSON[i]['daysFreq'],habitsJSON[i]['freq'])
+        }
+
+       
+        for(var j = 0; j < habitsJSON.length ; j++){
+            var colors = [];
+            for(var k = 0; k < 7;k++){
+                var date = dates[k];
+                var freq = parseInt(habitsJSON[j]['freq']);
+                var done = parseInt(habitsJSON[j]['daysFreq'][date]);
+                var good = habitsJSON[j]['good'];
+                var color = habitfunctions.calculateColor(done,freq,good);
+                colors.push(color);
+            }
+            habitsJSON[j]['colors'] = colors;
+        }
+
+        res.render('newhabittracker',{
+            'habits':habitsJSON,
+            'dates':dates,
+        });
+    });
+}
 
 module.exports.getHabits = function(){
-    app.get("/habits.json", function (req, res) {
+     app.get("/habits.json", function (req, res) {
         
             var habitsJSON = [];
             var sql= "SELECT habit.id AS id, habit.title AS name,habit_list.name AS tag,habit.good AS good, frequency.amount,SUBSTRING(timestamp,1,10) AS date FROM habit\n"
@@ -316,8 +351,7 @@ module.exports.getHabits = function(){
                 console.log(habitsJSON);
                 res.json(habitsJSON);
             });
-        
-           
+
         });
 };
 
