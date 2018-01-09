@@ -101,6 +101,9 @@ var main = function(habitObjects){
 				dayString = "0" + dayString;
 			}
 			var month = date.getMonth()+1;
+			if(month < 10){
+				month = "0" + month;
+			}
 			var weekDay = date.toDateString().substring(0,4);
 			var year = date.getFullYear();
 			var thisDate = year + "-" + month + "-" + dayString;

@@ -38,6 +38,21 @@ app.use(bodyParser.urlencoded({
 
 habitSize = 0;
 
+//redirect for the home page
+app.get("/home(page)?",function(req,res){
+    res.redirect('/index.html');
+})
+
+//redirects for the habit page
+app.get("/hab+it?(trac?ker)?",function(req,res){
+    res.redirect('/html/habittracker.html');
+})
+
+//redirects for the analtyics page
+app.get("/anal((y||i)tic?s?)?",function(req,res){
+    res.redirect('/html/analytics.html');
+})
+
 app.get("/habits.json", function (req, res) {
 
     var habitsJSON = [];
@@ -298,7 +313,18 @@ app.post("/deletehabit",function(req,res){
 
 app.get("/getGoodHabitPercToday.json",function(req,res){
     var date = new Date();
-    var today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    if(month < 10){
+        month = "0" + month;
+    }
+    var day = date.getDate();
+    if(day < 10){
+        day = "0" + day;
+    }
+    var today = year + "-" + month + "-" + day;
+    
+    
     console.log(today);
 
     var sql = "SELECT SUM(amount) AS total FROM frequency INNER JOIN habit ON (frequency_id = frequency.id) WHERE good='true'"
@@ -323,7 +349,17 @@ app.get("/getGoodHabitPercToday.json",function(req,res){
 
 app.get("/getBadHabitPercToday.json",function(req,res){
     var date = new Date();
-    var today = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    if(month < 10){
+        month = "0" + month;
+    }
+    var day = date.getDate();
+    if(day < 10){
+        day = "0" + day;
+    }
+    var today = year + "-" + month + "-" + day;
+    
     console.log(today);
 
     var sql = "SELECT SUM(amount) AS total FROM frequency INNER JOIN habit ON (frequency_id = frequency.id) WHERE good='false'"
